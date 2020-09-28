@@ -1,0 +1,34 @@
+<div>
+    <h2>Registrar Usuário</h2>
+
+    <form action="" method="POST">
+        {{ form.csrf_token }}
+
+        <div>
+            <label>Nome do Usuário</label>
+            {{ form.nome(placeholder="Digite o usuário") }}
+        </div>
+
+        <div>
+            <label>Login</label>
+            {{ form.login(placeholder="Digite o login do usuário") }}
+        </div>
+
+        <div>
+            <label>Senha</label>
+            {{ form.senha(placeholder="Digite a senha") }}
+        </div>
+
+        <div>
+            <label>Email</label>
+            {{ form.email(placeholder="Digite o email") }}
+        </div>
+        
+        <div>
+            <label>Tipo</label>
+            {{ form.tipo() }}
+        </div>
+
+        <button type="submit">Registrar</button>
+    </form>
+</div>

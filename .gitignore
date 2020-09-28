@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#mysql
+mysqlclient-1.4.6-cp37-cp37m-win32.whl
+
+#vscode
+.vs.code-workspace

@@ -1,0 +1,19 @@
+<div>
+    <h2>Faça seu Login</h2>
+
+    <form action="" method="POST">
+        {{ form.csrf_token }}
+
+        <div>
+            <label>Nome do Usuário</label>
+            {{ form.login(placeholder="Digite seu usuário") }}
+        </div>
+
+        <div>
+            <label>Senha</label>
+            {{ form.senha(placeholder="Digite sua senha") }}
+        </div>
+
+        <button type="submit">Entrar</button>
+    </form>
+</div>
