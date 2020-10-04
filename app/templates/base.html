@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Garage Link</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-4.5.2/css/bootstrap.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.png') }}"></link>
+    </head>
+
+    <body class="bg-light" style="height: 100%;">
+        <div class="container-fluid nopadding">
+            {% if current_user.is_authenticated %}
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <a class="navbar-brand" href="/index"> 
+                        <img class="ml-3" src="{{ url_for('static', filename='images/favicon.png') }}" alt="Garage Link" width="35" height="35">
+                    </a>
+                    
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-white font-weight-bold" href="/index">Início</a>
+                        </li>
+                        
+                        {% if current_user.tipo == 'gerente' %}
+                            <li class="nav-item">
+                                <a class="nav-link text-white font-weight-bold" href="/register">Novo Usuário</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    
+                    <a class="btn btn-danger ml-auto" href="/logout">Sair</a>
+                </nav>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+            
+            <footer class="footer text-center mt-5 mb-3 text-muted">
+                <p>&copy; 2020 Garage Link</p>
+            </footer>
+
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+            <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-4.5.2/js/bootstrap.js') }}"></script>
+        </div>
+    </body>
+</html>
