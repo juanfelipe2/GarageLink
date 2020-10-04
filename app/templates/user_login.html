@@ -1,19 +1,29 @@
-<div>
-    <h2>Faça seu Login</h2>
-
-    <form action="" method="POST">
-        {{ form.csrf_token }}
-
-        <div>
-            <label>Nome do Usuário</label>
-            {{ form.login(placeholder="Digite seu usuário") }}
+{% extends 'base.html' %}
+{% block content %}
+    <div class="mt-4">
+        <div class="text-center">
+            <img class="mb-4" src="{{ url_for('static', filename='images/favicon.png') }}" alt="Garage Link" width="75" height="75">
+            <h1 class="h3 mb-3 font-weight-light">Faça seu Login</h1>
         </div>
 
-        <div>
-            <label>Senha</label>
-            {{ form.senha(placeholder="Digite sua senha") }}
-        </div>
+        <div class="card" style="max-width: 19.3rem; margin: 0 auto;">
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.csrf_token }}
 
-        <button type="submit">Entrar</button>
-    </form>
-</div>
+                    <div class="form-group">
+                        <label class="font-weight-bold" for="login">Email ou login</label>
+                        {{ form.login(id="login", class="form-control") }}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="font-weight-bold" for="senha">Senha</label>
+                        {{ form.senha(id="senha", class="form-control") }}
+                    </div>
+
+                    <button class="btn btn-danger btn-sm btn-block" type="submit">Entrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
