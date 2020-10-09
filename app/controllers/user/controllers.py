@@ -1,5 +1,6 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user
+from wtforms.validators import Optional
 
 from . import user
 from app import app, db, login_manager
@@ -10,9 +11,9 @@ from app.models.tables import Usuario
 def get_user(login):
     return Usuario.query.filter_by(login=login).first()
 
-@app.route('/register', methods=['GET','POST'])
+@app.route('/cadastro-de-usuario', methods=['GET','POST'])
 def register():
-    if current_user.is_authenticated and current_user.tipo == 'gerente':
+    if current_user.is_authenticated and current_user.tipo.lower() == 'gerente':
         form = UserRegisterForm()
 
         if form.validate_on_submit():
@@ -30,11 +31,11 @@ def register():
             db.session.add(usuario)
             db.session.commit()
 
-            return redirect('index')
+            return redirect(url_for('list'))
 
-        return render_template('register_login.html', form=form)
+        return render_template('user_register.html', form=form)
     
-    return redirect('index')
+    return redirect('pagina-inicial')
 
 
 @app.route('/login', methods=['GET','POST'])
@@ -49,14 +50,58 @@ def login():
 
             if usuario and usuario.verify_password(senha):
                 login_user(usuario)
-                return redirect('index')
+                return redirect('pagina-inicial')
 
         return render_template('user_login.html', form=form)
 
-    return redirect('index')
+    return redirect('pagina-inicial')
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
+@app.route('/lista-de-usuarios', methods=['GET'])
+def list():
+    if current_user.is_authenticated and current_user.tipo.lower() == 'gerente':
+        users = Usuario.query.all()
+        path = request.path
+        return render_template('user_list.html', users=users)
+    return redirect('pagina-inicial')
+
+@app.route('/editar-usuario/<string:login>', methods=['GET','PUT'])
+def edit(login):
+    if current_user.is_authenticated and current_user.tipo.lower() == 'gerente':
+        form = UserRegisterForm()
+
+        print(form.validate_on_submit())
+        if form.is_submitted():
+            #Obtem informações do formulário de registro
+            usuario = Usuario.query.filter_by(login=login).first()
+            usuario.nome = form.nome.data
+            usuario.email = form.email.data
+            usuario.senha = form.senha.data
+            usuario.tipo =  form.tipo.data.lower()
+
+            #Grava no banco de dados
+            db.session.add(usuario)
+            db.session.commit()
+
+            return redirect(url_for('list'))
+        else:
+            usuario = Usuario.query.filter_by(login=login).first()
+            if usuario:
+                form.tipo.default = usuario.tipo.capitalize()
+                form.process()
+            return render_template('edit_user.html', form=form, usuario=usuario)
+    
+    return redirect('pagina-inicial')
+
+@app.route('/excluir-usuario/<string:login>', methods=['GET','POST'])
+def delete(login):
+    if current_user.is_authenticated and current_user.tipo.lower() == 'gerente':
+        usuario = Usuario.query.filter_by(login=login).first()
+        db.session.delete(usuario)
+        db.session.commit()
+        return redirect(url_for('list'))
+    redirect('pagina-inicial')
