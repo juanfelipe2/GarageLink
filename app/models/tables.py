@@ -20,6 +20,9 @@ class Usuario(db.Model, UserMixin):
 
     def get_id(self):
         return self.login
-        
+    
+    def set_password(self, pwd):
+        self.senha =  generate_password_hash(pwd)
+
     def verify_password(self, pwd):
         return check_password_hash(self.senha, pwd)

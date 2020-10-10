@@ -37,7 +37,7 @@
                             <span class="m-4">{{ current_user.nome }}</span>
                             <span class="m-4">{{ current_user.email }}</span>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-primary" href="">Alterar senha</a>
+                            <a class="dropdown-item text-primary"data-toggle="modal" data-target="#changePassword">Alterar senha</a>
                             <a class="dropdown-item text-danger" href="/logout">Sair</a>
                         </div>
                     </li>
@@ -80,6 +80,10 @@
                                             <li class="list-group-item">
                                                 <button class="btn btn-link" onclick="window.location.href = '/lista-de-funcionarios'">Lista de Funcionários</button>
                                             </li>
+                                            
+                                            <li class="list-group-item">
+                                                <button class="btn btn-link" onclick="window.location.href = '/cadastro-de-funcionario'">Cadastro de Funcionário</button>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -116,7 +120,69 @@
                                     </div>
                                 </div>
                                 <!-- Fim card Usuários -->
+
                             {% endif %}
+
+                            <!-- Inicio card Clientes -->
+                            <div class="card-header" id="headingThree">
+                                <h5 class="mb-2">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                        Clientes
+                                    </button>
+                                </h5>
+                            </div>
+
+                            {% if 'cliente' in request.path %}
+                                {% set class = 'collapse show' %}
+                            {% else %}
+                                {% set class = 'collapse' %}
+                            {% endif %}
+
+                            <div id="collapseThree" class="{{ class }}" aria-labelledby="headingThree" data-parent="#accordion">
+                                <div class="card-body p-0">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/lista-de-clientes'">Lista de Clientes</button>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/cadastro-de-cliente'">Cadastro de Cliente</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Fim card Clientes -->
+
+                            <!-- Inicio card Veículos -->
+                            <div class="card-header" id="headingFour">
+                                <h5 class="mb-2">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                        Veículos
+                                    </button>
+                                </h5>
+                            </div>
+
+                            {% if 'veiculo' in request.path %}
+                                {% set class = 'collapse show' %}
+                            {% else %}
+                                {% set class = 'collapse' %}
+                            {% endif %}
+
+                            <div id="collapseFour" class="{{ class }}" aria-labelledby="headingFour" data-parent="#accordion">
+                                <div class="card-body p-0">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/lista-de-veiculos'">Lista de Veículos</button>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/cadastro-de-veiculo'">Cadastro de Veículo</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Fim card Veículos -->
+
                         </div>
                     </div>
                 </div>
@@ -129,9 +195,48 @@
                 <p>&copy; 2020 Garage Link</p>
             </footer>
 
-            
+            <!--Modal alterar senha-->
+            <div class="modal fade" id="changePassword" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+    
+                        <div class="modal-header">
+                            <h5 class="modal-title">Alterar Senha</h5>
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span>x</span>
+                            </button>
+                        </div>
+    
+                        <div class="modal-body">
+                            <form action="/alterar-senha?pagina_atual={{ request.path }}" method="POST">
+                                
+                                <div class="form-group">
+                                    <label for="senha_atual">Senha Atual</label>
+                                    <input type="password" id="senha_atual" name="senha_atual" class="form-control" placeholder="*****" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="nova_senha">Nova Senha</label>
+                                    <input type="password" id="nova_senha" name="nova_senha" class="form-control" placeholder="*****" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="confirmar_senha">Confirmar Senha</label>
+                                    <input type="password" id="confirmar_senha" name="confirmar_senha" class="form-control" placeholder="*****" required>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
+
 
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

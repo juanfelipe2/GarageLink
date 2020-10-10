@@ -76,10 +76,9 @@ def edit(login):
     if current_user.is_authenticated and current_user.tipo.lower() == 'gerente':
         form = UserRegisterForm()
 
-        print(form.validate_on_submit())
         if form.is_submitted():
             #Obtem usuário cadastrado no banco de dados
-            usuario_banco = Usuario.query.filter_by(login=login).first()
+            usuario = Usuario.query.filter_by(login=login).first()
             
             #Informações do formulário
             nome = form.nome.data
@@ -87,17 +86,14 @@ def edit(login):
             senha = form.senha.data
             tipo =  form.tipo.data.lower()
 
-            #Monta objeto Usuario
-            usuario_model = Usuario(login=login, senha=senha, nome=nome, email=email, tipo=tipo)
-
             #Altera informações para alteração no banco de dados
-            usuario_banco.nome = usuario_model.nome
-            usuario_banco.email = usuario_model.email
-            usuario_banco.senha = usuario_model.senha
-            usuario_banco.tipo = usuario_model.tipo
+            usuario.nome = nome
+            usuario.email = email
+            usuario.set_password(senha)
+            usuario.tipo = tipo
 
             #Grava no banco de dados
-            db.session.add(usuario_banco)
+            db.session.add(usuario)
             db.session.commit()
 
             return redirect(url_for('list'))
