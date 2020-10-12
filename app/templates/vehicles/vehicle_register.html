@@ -9,10 +9,20 @@
                 {{ form.csrf_token }}
 
                 <div class="form-group">
+                    <label for="id_cliente">Id do cliente proprietário</label>
+                    {{ form.id_cliente(id="id_cliente", class="form-control", placeholder="Digite o id do cliente") }}
+                </div>
+
+                <div class="form-group">
                     <label for="login">Placa</label>
                     {{ form.placa(id="placa", class="form-control", placeholder="Digite a placa do veículo") }}
                 </div>
 
+                <div class="form-group">
+                    <label for="marca">Marca do Veículo</label>
+                    {{ form.marca(id="marca", class="form-control", placeholder="Digite o marca do veículo") }}
+                </div>
+                
                 <div class="form-group">
                     <label for="modelo">Modelo do Veículo</label>
                     {{ form.modelo(id="modelo", class="form-control", placeholder="Digite o modelo do veículo") }}
@@ -31,11 +41,6 @@
                 <div class="form-group">
                     <label for="anoModelo">Ano de do modelo do veículo</label>
                     {{ form.anoModelo(id="anoModelo", class="form-control", placeholder="Digite o ano do modelo") }}
-                </div>
-
-                <div class="form-group">
-                    <label for="id_cliente">Id do cliente proprietário</label>
-                    {{ form.id_cliente(id="id_cliente", class="form-control", placeholder="Digite o ano do modelo") }}
                 </div>
 
                 <div class="text-center">

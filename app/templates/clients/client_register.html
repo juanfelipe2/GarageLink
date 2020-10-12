@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <div class="d-flex justify-content-center mt-3 p-sm-2 col-xs-12 col-sm-10 bg-white">
+    <div class="d-flex justify-content-center mt-3 p-sm-2 col-xs-12 col-sm-10">
         <div class="col-sm-8 col-xs-12">
             <h2 class="mb-2">Cadastrar Cliente</h2>
 
@@ -9,22 +9,27 @@
                 {{ form.csrf_token }}
 
                 <div class="form-group">
-                    <label for="cpf">CPF do Cliente</label>
-                    {{ form.cpf(id="cpf", class="form-control", placeholder="Digite o CPF cliente") }}
+                    <label for="cpf">CPF</label>
+                    {{ form.cpf(id="cpf", class="form-control", placeholder="Digite o CPF") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="nome">Nome do Cliente</label>
-                    {{ form.nome(id="nome", class="form-control", placeholder="Digite o nome do cliente") }}
+                    <label for="nome">Nome</label>
+                    {{ form.nome(id="nome", class="form-control", placeholder="Digite o nome") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="dataNascimento">Dade de Nascimento do Cliente</label>
+                    <label for="dataNascimento">Data de Nascimento</label>
                     {{ form.dataNascimento(id="dataNascimento", class="form-control", placeholder="00/00/0000") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="celular">Celular do Cliente</label>
+                    <label for="telefone">Telefone</label>
+                    {{ form.telefone(id="telefone", class="form-control", placeholder="(XX)XXXX-XXXX") }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="celular">Celular</label>
                     {{ form.celular(id="celular", class="form-control", placeholder="(XX)XXXXX-XXXX") }}
                 </div>
 

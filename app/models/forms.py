@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SelectField, IntegerField
 from wtforms.validators import DataRequired
 from app.models.tables import Funcionario, Usuario
 from app import db
@@ -26,12 +26,13 @@ class UserForm(FlaskForm):
     id_funcionario = SelectField("id_funcionario", validators=[DataRequired()])
 
 
-class ClientRegisterForm(FlaskForm):
+class ClientForm(FlaskForm):
     id_cliente = StringField("id_cliente", validators=[DataRequired()])
     cpf = StringField("cpf", validators=[DataRequired()])
     nome = StringField("nome", validators=[DataRequired()])
     dataNascimento = StringField("dataNascimento", validators=[DataRequired()])
     dataCadastro = StringField("dataCadastro", validators=[DataRequired()])
+    telefone = StringField("telefone", validators=[DataRequired()])
     celular = StringField("celular", validators=[DataRequired()])
     email = StringField("email", validators=[DataRequired()])
     situacao = SelectField(
@@ -46,10 +47,11 @@ class ClientRegisterForm(FlaskForm):
         )
 
 
-class VehicleRegisterForm(FlaskForm):
+class VehicleForm(FlaskForm):
+    id_cliente = SelectField("id_cliente", validators=[DataRequired()])
     placa = StringField("placa", validators=[DataRequired()])
+    marca = StringField("marca", validators=[DataRequired()])
     modelo = StringField("modelo", validators=[DataRequired()])
     cor = StringField("cor", validators=[DataRequired()])
-    anoFabricacao = PasswordField("anoFabricacao", validators=[DataRequired()])
-    anoModelo = PasswordField("anoModelo", validators=[DataRequired()])
-    id_cliente = PasswordField("id_cliente", validators=[DataRequired()])
+    anoFabricacao = StringField("anoFabricacao", validators=[DataRequired()])
+    anoModelo = StringField("anoModelo", validators=[DataRequired()])

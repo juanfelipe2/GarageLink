@@ -5,6 +5,6 @@ secret = repr.decode('utf-8')
 
 DEBUG = True
 SQLALCHEMY_DATABASE_URI = 'mysql://' + secret
-# 'mysql://root:@localhost:3306/garage_link'
+#SQLALCHEMY_DATABASE_URI = 'mysql://root:@localhost:3306/garage_link_novo'
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 SECRET_KEY = 'YFUVMix#bgNV9AkEwsdb9@*!ZRkq@KfftK%CGQa*%4@bo!gevU'

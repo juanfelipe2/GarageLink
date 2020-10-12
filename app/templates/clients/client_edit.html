@@ -9,33 +9,38 @@
                 {{ form.csrf_token }}
                 
                 <div class="form-group">
-                    <label for="login">Id</label>
-                    {{ form.id_cliente(id="id_cliente", class="form-control", placeholder="Digite o id_cliente do cliente", value=cliente.id_cliente, disabled=True) }}
+                    <label for="id_cliente">Id</label>
+                    {{ form.id_cliente(id="id_cliente", class="form-control", placeholder="Digite o id_cliente", value=cliente.id_cliente, disabled=True) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="cpf">CPF do Cliente</label>
-                    {{ form.cpf(id="cpf", class="form-control", placeholder="Digite o cliente", value=cliente.cpf) }}
+                    <label for="cpf">CPF</label>
+                    {{ form.cpf(id="cpf", class="form-control", placeholder="Digite o CPF", value=cliente.cpf_cliente) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="nome">Nome do Cliente</label>
-                    {{ form.nome(id="nome", class="form-control", placeholder="Digite o cliente", value=cliente.nome) }}
+                    <label for="nome">Nome</label>
+                    {{ form.nome(id="nome", class="form-control", placeholder="Digite o nome", value=cliente.nome_cliente) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="dataNascimento">Dade de Nascimento do Cliente</label>
-                    {{ form.dataNascimento(id="dataNascimento", class="form-control", placeholder="Digite o cliente", value=cliente.dataNascimento) }}
+                    <label for="dataNascimento">Data de Nascimento</label>
+                    {{ form.dataNascimento(id="dataNascimento", class="form-control", placeholder="00/00/0000", value=cliente.data_nascimento_cliente) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="celular">Celular do Cliente</label>
-                    {{ form.celular(id="celular", class="form-control", placeholder="Digite o cliente", value=cliente.celular) }}
+                    <label for="telefone">Telefone</label>
+                    {{ form.telefone(id="telefone", class="form-control", placeholder="(XX)XXXX-XXXX", value=cliente.telefone_cliente) }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="celular">Celular</label>
+                    {{ form.celular(id="celular", class="form-control", placeholder="(XX)XXXXX-XXXX", value=cliente.celular_cliente) }}
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    {{ form.email(id="email", class="form-control",placeholder="Digite o email", value=cliente.email) }}
+                    {{ form.email(id="email", class="form-control",placeholder="example@email.com", value=cliente.email_cliente) }}
                 </div>
                 
                 <div class="form-group">
@@ -44,7 +49,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="situacao">Situção</label>
+                    <label for="situacao">Situação</label>
                     {{ form.situacao(id="situacao", class="form-control") }}
                 </div>
 

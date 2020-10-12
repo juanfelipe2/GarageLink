@@ -13,6 +13,7 @@
                             <th>Nome</th>
                             <th>Data de Nascimento</th>
                             <th>Data de Cadastro</th>
+                            <th>Telefone</th>
                             <th>Celular</th>
                             <th>Email</th>
                             <th>Situação</th>
@@ -24,14 +25,15 @@
                     <tbody>
                         {% for client in clients %}
                             <tr>
-                                <td>{{ client.cpf }}</td>
-                                <td>{{ client.nome }}</td>
-                                <td>{{ client.dataNascimento }}</td>
-                                <td>{{ client.dataCadastro }}</td>
-                                <td>{{ client.celular }}</td>
-                                <td>{{ client.email }}</td>
-                                <td>{{ client.situacao }}</td>
-                                <td>{{ client.tipo }}</td>
+                                <td>{{ client.cpf_cliente }}</td>
+                                <td>{{ client.nome_cliente }}</td>
+                                <td>{{ client.data_nascimento_cliente }}</td>
+                                <td>{{ client.data_cadastro_cliente }}</td>
+                                <td>{{ client.telefone_cliente }}</td>
+                                <td>{{ client.celular_cliente }}</td>
+                                <td>{{ client.email_cliente }}</td>
+                                <td>{{ client.situacao_cliente.capitalize() }}</td>
+                                <td>{{ client.tipo_cliente.capitalize() }}</td>
                                 <td class="text-center">
                                     <a class="btn btn-primary" href="{{ url_for('edit_client', id_cliente=client.id_cliente) }}">Editar</a>
                                 </td>

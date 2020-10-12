@@ -57,7 +57,7 @@ def login():
             senha = form.senha.data
             usuario = Usuario.query.filter_by(login_usuario=login).first()
 
-            if not usuario.is_deleted() and usuario.is_active() and usuario and usuario.verify_password(senha):
+            if usuario and not usuario.is_deleted() and usuario.is_active() and usuario.verify_password(senha):
                 login_user(usuario)
                 return redirect('pagina-inicial')
 
@@ -73,8 +73,7 @@ def logout():
 @app.route('/lista-de-usuarios', methods=['GET'])
 def list():
     if current_user.is_authenticated and current_user.is_manager():
-        users = Usuario.query.filter_by(excluido_usuario=False)
-        path = request.path
+        users = Usuario.query.filter_by(excluido_usuario = False)
         return render_template('user_list.html', users=users)
 
     return redirect('pagina-inicial')
