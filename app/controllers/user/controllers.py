@@ -117,7 +117,7 @@ def edit(login):
                 form.tipo.default = usuario.tipo_usuario.capitalize()
                 form.situacao.default = usuario.situacao_usuario.capitalize()
                 form.process()
-            return render_template('user/edit_user.html', form=form, usuario=usuario)
+            return render_template('user/user_edit.html', form=form, usuario=usuario)
     
     return redirect('pagina-inicial')
 
