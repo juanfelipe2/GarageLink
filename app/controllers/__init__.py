@@ -12,6 +12,9 @@ app.register_blueprint(user_blueprint)
 app.register_blueprint(client_blueprint)
 app.register_blueprint(vehicle_blueprint)
 
+from app.controllers.base import base as base_blueprint
+app.register_blueprint(base_blueprint)
+
 @app.errorhandler(404)
 def resource_not_found(e):
     return render_template('not-found-page.html')
