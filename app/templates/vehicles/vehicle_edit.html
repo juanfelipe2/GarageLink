@@ -9,8 +9,8 @@
                 {{ form.csrf_token }}
                 
                 <div class="form-group">
-                    <label for="id_cliente">Id do cliente proprietário</label>
-                    {{ form.id_cliente(id="id_cliente", class="form-control", placeholder="Digite o id do cliente", value=veiculo.cliente_id_cliente) }}
+                    <label for="id_cliente">Cliente proprietário</label>
+                    {{ form.id_cliente(id="id_cliente", class="form-control", value=veiculo.cliente_id_cliente) }}
                 </div>
 
                 <div class="form-group">
