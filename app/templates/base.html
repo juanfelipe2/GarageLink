@@ -117,6 +117,70 @@
                                 </div>
                                 <!-- Fim card Usuários -->
                             {% endif %}
+                            {% if current_user.tipo.lower() == 'gerente' or current_user.tipo.lower() == 'atendente'%}
+                                <!-- -------------------------------------------------------------------------- -->
+                                <!-- Inicio card Clientes -->
+                                <div class="card-header" id="headingThree">
+                                    <h5 class="mb-2">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                            Clientes
+                                        </button>
+                                    </h5>
+                                </div>
+
+                                {% if 'cliente' in request.path %}
+                                    {% set class = 'collapse show' %}
+                                {% else %}
+                                    {% set class = 'collapse' %}
+                                {% endif %}
+
+                                <div id="collapseThree" class="{{ class }}" aria-labelledby="headingThree" data-parent="#accordion">
+                                    <div class="card-body p-0">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <button class="btn btn-link" onclick="window.location.href = '/lista-de-clientes'">Lista de Clientes</button>
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <button class="btn btn-link" onclick="window.location.href = '/cadastro-de-clientes'">Cadastro de Cliente</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- Fim card Clientes -->
+                            {% endif %}
+                            {% if current_user.tipo.lower() == 'gerente' or current_user.tipo.lower() == 'atendente'%}
+                            <!-- -------------------------------------------------------------------------- -->
+                            <!-- Inicio card Veículos -->
+                            <div class="card-header" id="headingFour">
+                                <h5 class="mb-2">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                        Veículos
+                                    </button>
+                                </h5>
+                            </div>
+
+                            {% if 'veiculo' in request.path %}
+                                {% set class = 'collapse show' %}
+                            {% else %}
+                                {% set class = 'collapse' %}
+                            {% endif %}
+
+                            <div id="collapseFour" class="{{ class }}" aria-labelledby="headingFour" data-parent="#accordion">
+                                <div class="card-body p-0">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/lista-de-veiculos'">Lista de Veículos</button>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/cadastro-de-veiculos'">Cadastro de Veículo</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Fim card Veículos -->
+                        {% endif %}
                         </div>
                     </div>
                 </div>
