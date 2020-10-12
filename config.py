@@ -5,7 +5,7 @@ repr = base64.b64decode(b'YjcxNDA0N2JiNWUxNjE6NzI1NTYxNGVAdXMtY2Rici1lYXN0LTAyLm
 secret = repr.decode('utf-8')
 
 DEBUG = False
-HOST = 'localhost'
+HOST = '0.0.0.0'
 PORT = os.environ.get("PORT", 5000)
 SQLALCHEMY_DATABASE_URI = 'mysql://' + secret
 #SQLALCHEMY_DATABASE_URI = 'mysql://root:@localhost:3306/garage_link_novo'
