@@ -13,6 +13,7 @@
                             <th>Nome</th>
                             <th>Email</th>
                             <th>Tipo</th>
+                            <th>Situação</th>
                             <th class="text-center" colspan="2">Ações</th>
                         </tr>
                     </thead>
@@ -20,12 +21,13 @@
                     <tbody>
                         {% for user in users %}
                             <tr>
-                                <td>{{ user.login }}</td>
-                                <td>{{ user.nome }}</td>
-                                <td>{{ user.email }}</td>
-                                <td>{{ user.tipo }}</td>
-                                <td class="text-center"><a class="btn btn-primary" href="{{ url_for('edit', login=user.login) }}">Editar</a></td>
-                                <td class="text-center"><button class="btn btn-danger" onclick="excluir('{{ user.login }}')">Excluir</button></td>
+                                <td>{{ user.login_usuario }}</td>
+                                <td>{{ user.nome_usuario }}</td>
+                                <td>{{ user.email_usuario }}</td>
+                                <td>{{ user.tipo_usuario.capitalize() }}</td>
+                                <td>{{ user.situacao_usuario.capitalize() }}</td>
+                                <td class="text-center"><a class="btn btn-primary" href="{{ url_for('edit', login=user.login_usuario) }}">Editar</a></td>
+                                <td class="text-center"><button class="btn btn-danger" onclick="excluir('{{ user.login_usuario }}')">Excluir</button></td>
                             </tr>
                             {% endfor %}
                     </tbody>

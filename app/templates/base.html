@@ -34,8 +34,8 @@
                             <span class="text-dark font-weight-bold">Minha conta</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <span class="m-4">{{ current_user.nome }}</span>
-                            <span class="m-4">{{ current_user.email }}</span>
+                            <span class="m-4">{{ current_user.nome_usuario }}</span>
+                            <span class="m-4">{{ current_user.email_usuario }}</span>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-primary" href="" data-toggle="modal" data-target="#changePassword">Alterar senha</a>
                             <a class="dropdown-item text-danger" href="/logout">Sair</a>
@@ -58,7 +58,7 @@
                 <div class="d-none d-sm-block col-2 pr-0 pl-0 w-100 bg-white">
                     <div class="accordion" id="accordion">
                         <div class="card">
-                            {% if current_user.tipo.lower() == 'gerente' %}
+                            {% if current_user.is_manager() %}
                                 <!-- Inicio card Funcionarios -->
                                 <div class="card-header" id="headingOne">
                                     <h5 class="mb-0">
@@ -191,9 +191,9 @@
                 {% block content %}{% endblock %}
             </div>
 
-            <footer class="footer text-center mt-5 mb-3 text-muted">
+            <!-- <footer class="footer text-center mt-5 mb-3 text-muted">
                 <p>&copy; 2020 Garage Link</p>
-            </footer>
+            </footer> -->
 
             <!--Modal alterar senha-->
             <div class="modal fade" id="changePassword" tabindex="-1" role="dialog">

@@ -9,6 +9,11 @@
                 {{ form.csrf_token }}
 
                 <div class="form-group">
+                    <label for="id_funcionario">Funcionário</label>
+                    {{ form.id_funcionario(id="id_funcionario", class="form-control") }}
+                </div>
+
+                <div class="form-group">
                     <label for="login">Login</label>
                     {{ form.login(id="login", class="form-control", placeholder="Digite o login do usuário") }}
                 </div>
@@ -31,6 +36,11 @@
                 <div class="form-group">
                     <label for="tipo">Tipo</label>
                     {{ form.tipo(id="tipo", class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="situacao">Situação</label>
+                    {{ form.situacao(id="situacao", class="form-control") }}
                 </div>
 
                 <div class="text-center">

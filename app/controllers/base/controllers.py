@@ -10,7 +10,7 @@ def change_password():
         pagina_atual = request.args.get('pagina_atual')
 
         if request.method == 'POST':
-            usuario = Usuario.query.filter_by(login=current_user.login).first()
+            usuario = Usuario.query.filter_by(login_usuario=current_user.login_usuario).first()
             senha = request.form['senha_atual']
             nova_senha = request.form['nova_senha']
             confirmar_senha = request.form['confirmar_senha']
