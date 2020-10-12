@@ -42,7 +42,7 @@ def register():
             form.id_funcionario.choices = Funcionario.list_of_functionaries()
             form.process()
 
-        return render_template('user_register.html', form=form)
+        return render_template('user/user_register.html', form=form)
     
     return redirect('pagina-inicial')
 
@@ -61,7 +61,7 @@ def login():
                 login_user(usuario)
                 return redirect('pagina-inicial')
 
-        return render_template('user_login.html', form=form)
+        return render_template('user/user_login.html', form=form)
 
     return redirect('pagina-inicial')
 
@@ -74,7 +74,7 @@ def logout():
 def list():
     if current_user.is_authenticated and current_user.is_manager():
         users = Usuario.query.filter_by(excluido_usuario = False)
-        return render_template('user_list.html', users=users)
+        return render_template('user/user_list.html', users=users)
 
     return redirect('pagina-inicial')
 
@@ -117,7 +117,7 @@ def edit(login):
                 form.tipo.default = usuario.tipo_usuario.capitalize()
                 form.situacao.default = usuario.situacao_usuario.capitalize()
                 form.process()
-            return render_template('edit_user.html', form=form, usuario=usuario)
+            return render_template('user/edit_user.html', form=form, usuario=usuario)
     
     return redirect('pagina-inicial')
 

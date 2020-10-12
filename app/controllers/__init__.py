@@ -17,4 +17,4 @@ app.register_blueprint(base_blueprint)
 
 @app.errorhandler(404)
 def resource_not_found(e):
-    return render_template('not-found-page.html')
+    return render_template('not-found/not-found-page.html')
