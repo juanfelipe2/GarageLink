@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="d-flex justify-content-center mt-3 p-sm-2 col-xs-12 col-sm-10 bg-white">
+        <div class="col-sm-8 col-xs-12">
+            <h2 class="mb-2">Editar Veículo</h2>
+
+            <form method="POST">
+                {{ form.csrf_token }}
+                
+                <div class="form-group">
+                    <label for="login">Placa</label>
+                    {{ form.placa(id="placa", class="form-control", placeholder="Digite a placa do veículo", value=veiculo.placa) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="modelo">Modelo do Veículo</label>
+                    {{ form.modelo(id="modelo", class="form-control", placeholder="Digite o modelo do veículo", value=veiculo.modelo) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="cor">Cor do Veículo</label>
+                    {{ form.cor(id="cor", class="form-control", placeholder="Digite a cor do veículo", value=veiculo.cor) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="anoFabricacao">Ano de fabricação do veículo</label>
+                    {{ form.anoFabricacao(id="anoFabricacao", class="form-control", placeholder="Digite o ano de fabricação", value=veiculo.anoFabricacao) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="anoModelo">Ano de do modelo do veículo</label>
+                    {{ form.anoModelo(id="anoModelo", class="form-control", placeholder="Digite o ano do modelo", value=veiculo.anoModelo) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_cliente">Id do cliente proprietário</label>
+                    {{ form.id_cliente(id="id_cliente", class="form-control", placeholder="Digite o ano do modelo", value=veiculo.id_cliente) }}
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-primary mr-4" type="submit">Salvar</button>
+                    <a class="btn btn-danger" href="/lista-de-veiculos">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

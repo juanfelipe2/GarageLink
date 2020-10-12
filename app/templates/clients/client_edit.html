@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="d-flex justify-content-center mt-3 p-sm-2 col-xs-12 col-sm-10 bg-white">
+        <div class="col-sm-8 col-xs-12">
+            <h2 class="mb-2">Editar Cliente</h2>
+
+            <form method="POST">
+                {{ form.csrf_token }}
+                
+                <div class="form-group">
+                    <label for="login">Id</label>
+                    {{ form.id_cliente(id="id_cliente", class="form-control", placeholder="Digite o id_cliente do cliente", value=cliente.id_cliente, disabled=True) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="cpf">CPF do Cliente</label>
+                    {{ form.cpf(id="cpf", class="form-control", placeholder="Digite o cliente", value=cliente.cpf) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="nome">Nome do Cliente</label>
+                    {{ form.nome(id="nome", class="form-control", placeholder="Digite o cliente", value=cliente.nome) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="dataNascimento">Dade de Nascimento do Cliente</label>
+                    {{ form.dataNascimento(id="dataNascimento", class="form-control", placeholder="Digite o cliente", value=cliente.dataNascimento) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="celular">Celular do Cliente</label>
+                    {{ form.celular(id="celular", class="form-control", placeholder="Digite o cliente", value=cliente.celular) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    {{ form.email(id="email", class="form-control",placeholder="Digite o email", value=cliente.email) }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="tipo">Tipo</label>
+                    {{ form.tipo(id="tipo", class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="situacao">Situção</label>
+                    {{ form.situacao(id="situacao", class="form-control") }}
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-primary mr-4" type="submit">Salvar</button>
+                    <a class="btn btn-danger" href="/lista-de-clientes">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
