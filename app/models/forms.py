@@ -1,8 +1,21 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SelectField, IntegerField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Optional
 from app.models.tables import Funcionario, Usuario
 from app import db
+
+class FunctionaryForm(FlaskForm):
+    id_funcionario = StringField("id_funcionario", validators=[Optional()])
+    nome = StringField("nome", validators=[DataRequired()])
+    cpf = StringField("cpf", validators=[DataRequired()])
+    telefone = StringField("telefone", validators=[Optional()])
+    celular = StringField("celular", validators=[DataRequired()])
+    endereco = StringField("endereco", validators=[DataRequired()])
+    tipo = SelectField(
+        "tipo",
+        validators=[DataRequired()],
+        choices=['', 'Atendente', 'Gerente']
+        )
 
 
 class UserLoginForm(FlaskForm):
@@ -27,14 +40,14 @@ class UserForm(FlaskForm):
 
 
 class ClientForm(FlaskForm):
-    id_cliente = StringField("id_cliente", validators=[DataRequired()])
+    id_cliente = StringField("id_cliente", validators=[Optional()])
     cpf = StringField("cpf", validators=[DataRequired()])
     nome = StringField("nome", validators=[DataRequired()])
     dataNascimento = StringField("dataNascimento", validators=[DataRequired()])
     dataCadastro = StringField("dataCadastro", validators=[DataRequired()])
-    telefone = StringField("telefone", validators=[DataRequired()])
-    celular = StringField("celular", validators=[DataRequired()])
-    email = StringField("email", validators=[DataRequired()])
+    telefone = StringField("telefone", validators=[Optional()])
+    celular = StringField("celular", validators=[Optional()])
+    email = StringField("email", validators=[Optional()])
     situacao = SelectField(
         "situacao",
         validators=[DataRequired()],
@@ -48,7 +61,7 @@ class ClientForm(FlaskForm):
 
 
 class VehicleForm(FlaskForm):
-    id_cliente = SelectField("id_cliente", validators=[DataRequired()])
+    id_cliente = SelectField("id_cliente", validators=[Optional()])
     placa = StringField("placa", validators=[DataRequired()])
     marca = StringField("marca", validators=[DataRequired()])
     modelo = StringField("modelo", validators=[DataRequired()])
