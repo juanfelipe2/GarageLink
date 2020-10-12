@@ -15,6 +15,16 @@ class Funcionario(db.Model, UserMixin):
     tipo_funcionario = db.Column(db.String)
     excluido_funcionario = db.Column(db.Boolean)
 
+    def __init__(self, cpf, nome, telefone, celular, endereco, tipo):
+        self.cpf_funcionario = cpf
+        self.nome_funcionario = nome
+        self.telefone_funcionario = telefone
+        self.celular_funcionario = celular
+        self.endereco_funcionario = endereco
+        self.tipo_funcionario = tipo
+        self.excluido_funcionario = False
+
+
     def list_of_functionaries():
         #filtra os funcionários que não possuem login cadastrado
         functionaries = db.session\
