@@ -7,8 +7,15 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Garage Link</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-4.5.2/css/bootstrap.css') }}">
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.png') }}"></link>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="//cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-4.5.2/js/bootstrap.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/table-list.js') }}"></script>
     </head>
 
     <header>
@@ -240,9 +247,5 @@
 
         </div>
 
-
-        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-4.5.2/js/bootstrap.js') }}"></script>
     </body>
 </html>

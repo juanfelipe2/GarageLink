@@ -3,10 +3,10 @@
 
     <div class="d-flex justify-content-center mt-3 col-xs-12 col-sm-10">
         <div class="col-sm-10 col-xs-12">
-            <h2 class="mb-2">Lista de Usuários</h2>
+            <h2 class="mb-3">Lista de Usuários</h2>
             
             <div class="table-responsive">
-                <table class="table table-striped table-bordered">
+                <table id="table" class="table table-striped table-bordered">
                     <thead class="thead-default bg-white">
                         <tr>
                             <th>Login</th>
@@ -14,7 +14,7 @@
                             <th>Email</th>
                             <th>Tipo</th>
                             <th>Situação</th>
-                            <th class="text-center" colspan="2">Ações</th>
+                            <th class="text-center">Ações</th>
                         </tr>
                     </thead>
 
@@ -26,8 +26,12 @@
                                 <td>{{ user.email_usuario }}</td>
                                 <td>{{ user.tipo_usuario.capitalize() }}</td>
                                 <td>{{ user.situacao_usuario.capitalize() }}</td>
-                                <td class="text-center"><a class="btn btn-primary" href="{{ url_for('edit', login=user.login_usuario) }}">Editar</a></td>
-                                <td class="text-center"><button class="btn btn-danger" onclick="excluir('{{ user.login_usuario }}')">Excluir</button></td>
+
+                                <td class="d-flex justify-content-center align-bottom">
+                                    <a class="btn btn-primary" href="{{ url_for('edit', login=user.login_usuario) }}">Editar</a>
+                                    <div class="ml-3"></div>
+                                    <button class="btn btn-danger" onclick="excluir('{{ user.login_usuario }}')">Excluir</button>
+                                </td>
                             </tr>
                             {% endfor %}
                     </tbody>
@@ -36,14 +40,15 @@
             
         </div>
 
-        <!-- Função para confirmar exclusão -->
-        <script>
-            function excluir(login) {
-                if (confirm('Deseja excluir o usuário ' +login+ '?')) {
-                    window.location.href = '/excluir-usuario/' + login
-                }
-            }
-        </script>
     </div>
+    
+    <!-- Função para confirmar exclusão -->
+    <script>
+        function excluir(login) {
+            if (confirm('Deseja excluir o usuário ' +login+ '?')) {
+                window.location.href = '/excluir-usuario/' + login
+            }
+        }
+    </script>
 
 {% endblock %}
