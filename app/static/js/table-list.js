@@ -7,7 +7,7 @@ $(document).ready( function () {
         .on( 'mouseenter', 'td', function () {
             var colIdx = table.cell(this).index().row;
 
-            $( table.rows().nodes() ).removeClass( 'bg-gray' );
-            $( table.row( colIdx ).nodes() ).addClass( 'bg-gray' );
+            $( table.rows().nodes() ).removeClass( 'bg-grey' );
+            $( table.row( colIdx ).nodes() ).addClass( 'bg-grey' );
         } );
 } );
