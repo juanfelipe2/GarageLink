@@ -187,6 +187,38 @@
                                 </div>
                             </div>
                             <!-- Fim card Veículos -->
+
+                            <!-- -------------------------------------------------------------------------- -->
+
+                            <!-- Inicio card Serviços -->
+                            <div class="card-header" id="headingFive">
+                                <h5 class="mb-2">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                        Serviços
+                                    </button>
+                                </h5>
+                            </div>
+
+                            {% if 'servico' in request.path %}
+                                {% set class = 'collapse show' %}
+                            {% else %}
+                                {% set class = 'collapse' %}
+                            {% endif %}
+
+                            <div id="collapseFive" class="{{ class }}" aria-labelledby="headingFive" data-parent="#accordion">
+                                <div class="card-body p-0">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/lista-de-servicos'">Lista de Serviços</button>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/cadastro-de-servico'">Cadastro de Serviço</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Fim card Serviços -->
                         </div>
                     </div>
                 </div>

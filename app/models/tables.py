@@ -3,7 +3,7 @@ from flask_login import UserMixin
 from sqlalchemy import and_, or_
 from werkzeug.security import generate_password_hash, check_password_hash
 
-class Funcionario(db.Model, UserMixin):
+class Funcionario(db.Model):
     __tableName__ = "funcionario"
 
     id_funcionario = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -99,7 +99,7 @@ class Usuario(db.Model, UserMixin):
         return check_password_hash(self.senha, pwd)
 
 
-class Cliente(db.Model, UserMixin):
+class Cliente(db.Model):
     __tableName__ = "cliente"
 
     id_cliente = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -152,7 +152,7 @@ class Cliente(db.Model, UserMixin):
         return self.excluido_cliente
 
 
-class Veiculo(db.Model, UserMixin):
+class Veiculo(db.Model):
     __tableName__ = "veiculo"
 
     placa_veiculo = db.Column(db.String, primary_key=True)
@@ -176,3 +176,25 @@ class Veiculo(db.Model, UserMixin):
     
     def is_deleted(self):
         return self.excluido_veiculo
+
+class Servico(db.Model):
+    __tableName__ = "servico"
+
+    id_servico = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome_servico = db.Column(db.String)
+    descricao_servico = db.Column(db.String)
+    situacao_servico = db.Column(db.String)
+    preco_servico = db.Column(db.Float)
+    tipo_servico = db.Column(db.String)
+    excluido_servico = db.Column(db.Boolean)
+
+    def __init__(self, nome, descricao, preco, tipo, situacao):
+        self.nome_servico = nome
+        self.descricao_servico = descricao
+        self.preco_servico = preco
+        self.tipo_servico = tipo
+        self.situacao_servico = situacao
+        self.excluido_servico = False
+
+    def is_deleted(self):
+        return self.excluido_servico

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="d-flex justify-content-center mt-3 p-sm-2 col-xs-12 col-sm-10">
+        <div class="col-sm-8 col-xs-12">
+            <h2 class="mb-2">Cadastrar Serviço</h2>
+
+            <form method="POST">
+                {{ form.csrf_token }}
+
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    {{ form.nome(id="nome", class="form-control", placeholder="Digite o nome do serviço") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descrição</label>
+                    {{ form.descricao(id="descricao", class="form-control", placeholder="Digite a descrição do serviço") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="preco">Preço</label>
+                    {{ form.preco(id="preco", class="form-control", placeholder="Digite o preço do serviço") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo">Tipo</label>
+                    {{ form.tipo(id="tipo", class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="situacao">Situação</label>
+                    {{ form.situacao(id="situacao", class="form-control") }}
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-primary mr-4" type="submit">Salvar</button>
+                    <a class="btn btn-danger" href="/lista-de-servicos">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
