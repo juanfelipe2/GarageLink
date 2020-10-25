@@ -148,9 +148,37 @@ class Cliente(db.Model):
         
         return list
 
+    def list_of_clients_no_monthly():
+        clients = db.session\
+                    .query(
+                        Cliente.id_cliente, 
+                        Cliente.nome_cliente
+                    )\
+                    .outerjoin(
+                        Mensalidade, 
+                        and_(
+                            Mensalidade.cliente_id_cliente == Cliente.id_cliente, 
+                            Mensalidade.excluido_mensalidade == False
+                        )
+                    )\
+                    .filter(
+                        Cliente.excluido_cliente == False,
+                        or_(
+                            Mensalidade.situacao_mensalidade == None,
+                            Mensalidade.situacao_mensalidade == 'pago'
+                        )
+                    )
+        
+        #inicia lista com um valor em branco
+        list = [(0, '')]
+
+        for client in clients:
+            list.append((client.id_cliente, client.nome_cliente))
+        
+        return list
+
     def is_deleted(self):
         return self.excluido_cliente
-
 
 class Veiculo(db.Model):
     __tableName__ = "veiculo"
@@ -198,3 +226,25 @@ class Servico(db.Model):
 
     def is_deleted(self):
         return self.excluido_servico
+
+class Mensalidade(db.Model):
+    __tableName__ = "mensalidade"
+
+    id_mensalidade = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    valor_mensalidade = db.Column(db.Float)
+    data_vencimento_mensalidade = db.Column(db.String)
+    data_pagamento_mensalidade = db.Column(db.String)
+    situacao_mensalidade = db.Column(db.String)
+    excluido_mensalidade = db.Column(db.Boolean)
+    cliente_id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id_cliente'))
+
+    def __init__(self, valor, data_vencimento, data_pagamento, situacao, id_cliente):
+        self.valor_mensalidade = valor
+        self.data_vencimento_mensalidade = data_vencimento
+        self.data_pagamento_mensalidade = data_pagamento
+        self.situacao_mensalidade = situacao
+        self.cliente_id_cliente = id_cliente
+        self.excluido_mensalidade = False
+    
+    def is_deleted(self):
+        return self.excluido_mensalidade

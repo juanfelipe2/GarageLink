@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SelectField, IntegerField, FloatField
+from wtforms import StringField, PasswordField, BooleanField, SelectField, IntegerField, FloatField, DateField
 from wtforms.validators import DataRequired, Optional
 from app.models.tables import Funcionario, Usuario
 from app import db
@@ -83,4 +83,16 @@ class ServiceForm(FlaskForm):
             "situacao",
             validators=[DataRequired()],
             choices=['', 'Ativo', 'Inativo']
+        )
+
+class MonthlyPayment(FlaskForm):
+    id_cliente = SelectField("id_cliente", validators=[Optional()])
+    id_mensalidade = IntegerField("id_mensalidade", validators=[Optional()])
+    valor = FloatField("valor", validators=[DataRequired()])
+    data_vencimento = DateField("data_vencimento", validators=[DataRequired()])
+    data_pagamento = DateField("data_pagamento", validators=[DataRequired()])
+    situacao = situacao = SelectField(
+            "situacao",
+            validators=[DataRequired()],
+            choices=['', 'Pago', 'Em aberto', 'Vencido']
         )

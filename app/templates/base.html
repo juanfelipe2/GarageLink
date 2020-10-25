@@ -61,9 +61,9 @@
                         <div class="card">
                             {% if current_user.is_manager() %}
                                 <!-- Inicio card Funcionarios -->
-                                <div class="card-header" id="headingOne">
+                                <div class="card-header" id="heading1">
                                     <h5 class="mb-0">
-                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
                                             Funcionários
                                         </button>
                                     </h5>
@@ -75,7 +75,7 @@
                                     {% set class = 'collapse' %}
                                 {% endif %}
 
-                                <div id="collapseOne" class="{{ class }}" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div id="collapse1" class="{{ class }}" aria-labelledby="heading1" data-parent="#accordion">
                                     <div class="card-body p-0">
                                         <ul class="list-group">
                                             <li class="list-group-item">
@@ -93,9 +93,9 @@
                                 <!-- -------------------------------------------------------------------------- -->
 
                                 <!-- Inicio card Usuários -->
-                                <div class="card-header" id="headingTwo">
+                                <div class="card-header" id="heading2">
                                     <h5 class="mb-2">
-                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">
                                             Usuários
                                         </button>
                                     </h5>
@@ -107,7 +107,7 @@
                                     {% set class = 'collapse' %}
                                 {% endif %}
 
-                                <div id="collapseTwo" class="{{ class }}" aria-labelledby="headingTwo" data-parent="#accordion">
+                                <div id="collapse2" class="{{ class }}" aria-labelledby="heading2" data-parent="#accordion">
                                     <div class="card-body p-0">
                                         <ul class="list-group">
                                             <li class="list-group-item">
@@ -127,9 +127,9 @@
                             <!-- -------------------------------------------------------------------------- -->
 
                             <!-- Inicio card Clientes -->
-                            <div class="card-header" id="headingThree">
+                            <div class="card-header" id="heading3">
                                 <h5 class="mb-2">
-                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
                                         Clientes
                                     </button>
                                 </h5>
@@ -141,7 +141,7 @@
                                 {% set class = 'collapse' %}
                             {% endif %}
 
-                            <div id="collapseThree" class="{{ class }}" aria-labelledby="headingThree" data-parent="#accordion">
+                            <div id="collapse3" class="{{ class }}" aria-labelledby="heading3" data-parent="#accordion">
                                 <div class="card-body p-0">
                                     <ul class="list-group">
                                         <li class="list-group-item">
@@ -158,10 +158,42 @@
 
                             <!-- -------------------------------------------------------------------------- -->
 
-                            <!-- Inicio card Veículos -->
-                            <div class="card-header" id="headingFour">
+                            <!-- Inicio card Mensalidades -->
+                            <div class="card-header" id="heading4">
                                 <h5 class="mb-2">
-                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse4" aria-expanded="true" aria-controls="collapse4">
+                                        Mensalidades
+                                    </button>
+                                </h5>
+                            </div>
+
+                            {% if 'mensalidade' in request.path %}
+                                {% set class = 'collapse show' %}
+                            {% else %}
+                                {% set class = 'collapse' %}
+                            {% endif %}
+
+                            <div id="collapse4" class="{{ class }}" aria-labelledby="heading4" data-parent="#accordion">
+                                <div class="card-body p-0">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/lista-de-mensalidades'">Lista de Mensalidades</button>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/cadastro-de-mensalidade'">Cadastro de Mensalidade</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Fim card Mensalidades -->
+
+                            <!-- -------------------------------------------------------------------------- -->
+
+                            <!-- Inicio card Veículos -->
+                            <div class="card-header" id="heading5">
+                                <h5 class="mb-2">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse5" aria-expanded="true" aria-controls="collapse5">
                                         Veículos
                                     </button>
                                 </h5>
@@ -173,7 +205,7 @@
                                 {% set class = 'collapse' %}
                             {% endif %}
 
-                            <div id="collapseFour" class="{{ class }}" aria-labelledby="headingFour" data-parent="#accordion">
+                            <div id="collapse5" class="{{ class }}" aria-labelledby="heading5" data-parent="#accordion">
                                 <div class="card-body p-0">
                                     <ul class="list-group">
                                         <li class="list-group-item">
@@ -191,9 +223,9 @@
                             <!-- -------------------------------------------------------------------------- -->
 
                             <!-- Inicio card Serviços -->
-                            <div class="card-header" id="headingFive">
+                            <div class="card-header" id="heading6">
                                 <h5 class="mb-2">
-                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse6" aria-expanded="true" aria-controls="collapse6">
                                         Serviços
                                     </button>
                                 </h5>
@@ -205,7 +237,7 @@
                                 {% set class = 'collapse' %}
                             {% endif %}
 
-                            <div id="collapseFive" class="{{ class }}" aria-labelledby="headingFive" data-parent="#accordion">
+                            <div id="collapse6" class="{{ class }}" aria-labelledby="heading6" data-parent="#accordion">
                                 <div class="card-body p-0">
                                     <ul class="list-group">
                                         <li class="list-group-item">
