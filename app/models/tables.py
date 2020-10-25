@@ -205,27 +205,21 @@ class Veiculo(db.Model):
     def is_deleted(self):
         return self.excluido_veiculo
 
-class Servico(db.Model):
-    __tableName__ = "servico"
+class Avaria(db.Model):
+    id_avaria = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    descricao_avaria = db.Column(db.String)
+    observacao_avaria = db.Column(db.String)
+    excluido_avaria = db.Column(db.Boolean)
+    placa_veiculo_placa = db.Column(db.String, db.ForeignKey('veiculo.placa_veiculo'))
 
-    id_servico = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    nome_servico = db.Column(db.String)
-    descricao_servico = db.Column(db.String)
-    situacao_servico = db.Column(db.String)
-    preco_servico = db.Column(db.Float)
-    tipo_servico = db.Column(db.String)
-    excluido_servico = db.Column(db.Boolean)
-
-    def __init__(self, nome, descricao, preco, tipo, situacao):
-        self.nome_servico = nome
-        self.descricao_servico = descricao
-        self.preco_servico = preco
-        self.tipo_servico = tipo
-        self.situacao_servico = situacao
-        self.excluido_servico = False
-
+    def __init__(self, descricao, observacao, placa_veiculo):
+        self.descricao_avaria = descricao
+        self.observacao_avaria = observacao
+        self.placa_veiculo_placa = placa_veiculo
+        self.excluido_avaria = False
+    
     def is_deleted(self):
-        return self.excluido_servico
+        return self.excluido_avaria
 
 class Mensalidade(db.Model):
     __tableName__ = "mensalidade"
@@ -248,3 +242,105 @@ class Mensalidade(db.Model):
     
     def is_deleted(self):
         return self.excluido_mensalidade
+
+class Vaga(db.Model):
+    __tableName__ = "vaga"
+
+    id_vaga = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    localizacao_vaga = db.Column(db.String)
+    codigo_vaga = db.Column(db.String)
+    situacao_vaga = db.Column(db.String)
+    excluido_vaga = db.Column(db.Boolean)
+    veiculo_placa_veiculo = db.Column(db.String, db.ForeignKey('veiculo.placa_veiculo'))
+
+    def __init__(self, localizacao, codigo, situacao):
+        self.localizacao_vaga = localizacao
+        self.codigo_vaga = codigo
+        self.situacao_vaga = situacao
+
+class Servico(db.Model):
+    __tableName__ = "servico"
+
+    id_servico = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome_servico = db.Column(db.String)
+    descricao_servico = db.Column(db.String)
+    situacao_servico = db.Column(db.String)
+    preco_servico = db.Column(db.Float)
+    tipo_servico = db.Column(db.String)
+    excluido_servico = db.Column(db.Boolean)
+
+    def __init__(self, nome, descricao, preco, tipo, situacao):
+        self.nome_servico = nome
+        self.descricao_servico = descricao
+        self.preco_servico = preco
+        self.tipo_servico = tipo
+        self.situacao_servico = situacao
+        self.excluido_servico = False
+
+    def is_deleted(self):
+        return self.excluido_servico
+
+class Estacionamneto(db.Model):
+    __tableName__ = "estacionamento"
+
+    id_estacionamento = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    entrada_estacionamento = db.Column(db.String)
+    saida_estacionamento = db.Column(db.String)
+    observacao_estacionamento = db.Column(db.String)
+    valor_total_estacionamento = db.Column(db.Float)
+    valor_recebido_estacionamento = db.Column(db.Float)
+    desconto_estacionamento = db.Column(db.Integer)
+    tipo_pagamento_estacionamento = db.Column(db.String)
+    situacao_estacionamento = db.Column(db.String)
+    excluido_estacionamento = db.Column(db.Boolean)
+    veiculo_placa_veiculo = db.Column(db.String, db.ForeignKey('veiculo.placa_veiculo'))
+    vaga_id_vaga = db.Column(db.Integer, db.ForeignKey('vaga.id_vaga'))
+
+    def __init__(self, entrada, observacao, valor_total, valor_recebido, desconto, tipo_pagamento, situacao, placa_veiculo, id_vaga):
+        self.entrada_estacionamento = entrada
+        self.observacao_estacionamento = observacao
+        self.valor_total_estacionamento = valor_total
+        self.valor_recebido_estacionamento = valor_recebido
+        self.desconto_estacionamento = desconto
+        self.tipo_pagamento_estacionamento = tipo_pagamento
+        self.situacao_estacionamento = situacao
+        self.veiculo_placa_veiculo = placa_veiculo
+        self.vaga_id_vaga = id_vaga
+        self.excluido_estacionamento = False
+    
+    def is_deleted(self):
+        return self.excluido_estacionamento
+
+class ServicoEstacionamento(db.Model):
+    __tableName__ = "servico_estacionamento"
+
+    estacionamento_id_estacionamento = db.Column(db.Integer, db.ForeignKey("estacionamento.id_estacionamento"), primary_key=True)
+    servico_id_servico = db.Column(db.Integer, db.ForeignKey("servico.id_servico"), primary_key=True)
+    nome_servico = db.Column(db.String)
+    preco_servico = db.Column(db.Float)
+    excluido_servico = db.Column(db.Boolean)
+
+    def __init__(self, id_estacionamento, id_servico, nome, preco):
+        self.estacionamento_id_estacionamento = id_estacionamento
+        self.servico_id_servico = id_servico
+        self.nome_servico = nome
+        self.preco_servico = preco
+        self.excluido_servico = False
+    
+    def is_deleted(self):
+        return self.excluido_servico
+
+class UsuarioEstacionamento(db.Model):
+    __tableName__ = "usuario_estacionamento"
+
+    estacionamento_id_estacionamento = db.Column(db.Integer, db.ForeignKey("estacionamento.id_estacionamento"), primary_key=True)
+    usuario_login_usuario = db.Column(db.Integer, db.ForeignKey("usuario.login_usuario"), primary_key=True)
+    excluido_usuario = db.Column(db.Boolean)
+
+    def __init__(self, id_estacionamento, login_usuario):
+        self.estacionamento_id_estacionamento = id_estacionamento
+        self.usuario_login_usuario = login_usuario
+        self.excluido_usuario = False
+
+    def is_deleted(self):
+        return self.excluido_usuario
