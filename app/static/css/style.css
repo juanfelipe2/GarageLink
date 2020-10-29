@@ -14,3 +14,7 @@ body {
  .bg-grey {
     background-color: rgb(194, 194, 194) !important;
  }
+
+ .bg-selected {
+    background-color: rgb(172, 186, 213) !important;
+ }

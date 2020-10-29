@@ -202,6 +202,24 @@ class Veiculo(db.Model):
         self.excluido_veiculo = False
         self.cliente_id_cliente = id_cliente
     
+    def list_of_vehicles():
+        #retorna todos os clientes
+        vehicles = db.session\
+                            .query(
+                                Veiculo.placa_veiculo,
+                            )\
+                            .filter(
+                                Veiculo.excluido_veiculo == False
+                            )
+        
+        #inicia lista com um valor em branco
+        list = ['']
+
+        for vehicle in vehicles:
+            list.append(vehicle.placa_veiculo)
+        
+        return list
+
     def is_deleted(self):
         return self.excluido_veiculo
 
@@ -280,7 +298,7 @@ class Servico(db.Model):
     def is_deleted(self):
         return self.excluido_servico
 
-class Estacionamneto(db.Model):
+class Estacionamento(db.Model):
     __tableName__ = "estacionamento"
 
     id_estacionamento = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -296,16 +314,14 @@ class Estacionamneto(db.Model):
     veiculo_placa_veiculo = db.Column(db.String, db.ForeignKey('veiculo.placa_veiculo'))
     vaga_id_vaga = db.Column(db.Integer, db.ForeignKey('vaga.id_vaga'))
 
-    def __init__(self, entrada, observacao, valor_total, valor_recebido, desconto, tipo_pagamento, situacao, placa_veiculo, id_vaga):
-        self.entrada_estacionamento = entrada
-        self.observacao_estacionamento = observacao
-        self.valor_total_estacionamento = valor_total
-        self.valor_recebido_estacionamento = valor_recebido
-        self.desconto_estacionamento = desconto
-        self.tipo_pagamento_estacionamento = tipo_pagamento
-        self.situacao_estacionamento = situacao
+    def __init__(self, placa_veiculo, id_vaga, entrada, saida, observacao, valor_total, situacao):
         self.veiculo_placa_veiculo = placa_veiculo
         self.vaga_id_vaga = id_vaga
+        self.entrada_estacionamento = entrada
+        self.saida_estacionamento = saida
+        self.observacao_estacionamento = observacao
+        self.valor_total_estacionamento = valor_total
+        self.situacao_estacionamento = situacao
         self.excluido_estacionamento = False
     
     def is_deleted(self):

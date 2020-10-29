@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SelectField, IntegerField, FloatField, DateField
+from wtforms import StringField, PasswordField, BooleanField, SelectField, IntegerField, FloatField, DateField, DateTimeField, HiddenField
 from wtforms.validators import DataRequired, Optional
 from app.models.tables import Funcionario, Usuario
 from app import db
@@ -91,8 +91,35 @@ class MonthlyPayment(FlaskForm):
     valor = FloatField("valor", validators=[DataRequired()])
     data_vencimento = DateField("data_vencimento", validators=[DataRequired()])
     data_pagamento = DateField("data_pagamento", validators=[DataRequired()])
-    situacao = situacao = SelectField(
+    situacao = SelectField(
             "situacao",
             validators=[DataRequired()],
             choices=['', 'Pago', 'Em aberto', 'Vencido']
         )
+
+class Parking(FlaskForm):
+    id_estacionamento = IntegerField("id_estacionamento", validators=[DataRequired()])
+    placa_veiculo = SelectField("placa_veiculo", validators=[DataRequired()])
+    id_vaga = IntegerField("id_vaga", validators=[DataRequired()])
+    entrada = DateTimeField("entrada", validators=[DataRequired()])
+    saida = DateTimeField("saida", validators=[Optional()])
+    observacao = StringField("observacao", validators=[Optional()])
+    valor_total = FloatField("valor_total", validators=[DataRequired()])
+    valor_recebido = FloatField("valor_recebido", validators=[Optional()])
+    desconto = IntegerField("desconto", validators=[Optional()])
+    tipo_pagamento = SelectField(
+            "tipo_pagamento",
+            validators=[DataRequired()],
+            choices=['', 'Dinheiro', 'Crédito', 'Débito']
+        )
+    situacao = SelectField(
+            "situacao",
+            validators=[DataRequired()],
+            choices=['', 'Pago', 'Em aberto']
+        )
+    servicos = HiddenField("servicos")
+
+class ServiceParking(FlaskForm):
+     id_servico = IntegerField("id_servico", validators=[DataRequired()])
+     nome = StringField("nome", validators=[DataRequired()])
+     preco = FloatField("preco", validators=[DataRequired()])
