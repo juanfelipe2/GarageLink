@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="d-flex justify-content-center mt-3 p-sm-2 col-xs-12 col-sm-10 bg-white">
+        <div class="col-sm-8 col-xs-12">
+            <h2 class="mb-2">Cadastrar Vaga</h2>
+
+            <form method="POST">
+                {{ form.csrf_token }}
+
+                <div class="form-group">
+                    <label for="codigo_vaga">Código da Vaga</label>
+                    {{ form.codigo_vaga(id="codigo_vaga", class="form-control", placeholder="Digite o código da vaga") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="localizacao_vaga">Localização da Vaga</label>
+                    {{ form.localizacao_vaga(id="localizacao_vaga", class="form-control", placeholder="Digite a localização da vaga") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="situacao_vaga">Situação da Vaga</label>
+                    {{ form.situacao_vaga(id="situacao_vaga", class="form-control", placeholder="Digite a situação da vaga") }}
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-primary mr-4" type="submit">Salvar</button>
+                    <a class="btn btn-danger" href="/lista-de-vagas">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

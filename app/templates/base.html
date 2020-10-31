@@ -251,6 +251,35 @@
                                 </div>
                             </div>
                             <!-- Fim card Serviços -->
+                            <!-- Inicio card Vagas -->
+                            <div class="card-header" id="heading7">
+                                <h5 class="mb-2">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse7" aria-expanded="true" aria-controls="collapse7">
+                                        Vagas
+                                    </button>
+                                </h5>
+                            </div>
+
+                            {% if 'vaga' in request.path %}
+                                {% set class = 'collapse show' %}
+                            {% else %}
+                                {% set class = 'collapse' %}
+                            {% endif %}
+
+                            <div id="collapse7" class="{{ class }}" aria-labelledby="heading7" data-parent="#accordion">
+                                <div class="card-body p-0">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/lista-de-vagas'">Lista de Vagas</button>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/cadastro-de-vagas'">Cadastrar Vaga</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Fim card Vagas -->
                         </div>
                     </div>
                 </div>

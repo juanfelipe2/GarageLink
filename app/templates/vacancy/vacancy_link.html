@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="d-flex justify-content-center mt-3 p-sm-2 col-xs-12 col-sm-10 bg-white">
+        <div class="col-sm-8 col-xs-12">
+            <h2 class="mb-2">Editar Vaga</h2>
+
+            <form method="POST">
+                {{ form.csrf_token }}
+                
+                <div class="form-group">
+                    <label for="login">Código da Vaga</label>
+                    {{ form.codigo_vaga(id="codigo_vaga", class="form-control", placeholder="Digite o código da vaga", value=vaga.codigo_vaga) }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="veiculo_placa_veiculo">Placa do Veículo</label>
+                    {{ form.veiculo_placa_veiculo(id="veiculo_placa_veiculo", class="form-control") }}
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-primary mr-4" type="submit">Salvar</button>
+                    <a class="btn btn-danger" href="/lista-de-vagas">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

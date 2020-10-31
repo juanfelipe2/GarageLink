@@ -3,6 +3,7 @@ from flask_login import UserMixin
 from sqlalchemy import and_, or_
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 class Funcionario(db.Model):
     __tableName__ = "funcionario"
 
@@ -24,9 +25,8 @@ class Funcionario(db.Model):
         self.tipo_funcionario = tipo
         self.excluido_funcionario = False
 
-
     def list_of_functionaries():
-        #filtra os funcionários que não possuem login cadastrado
+        # filtra os funcionários que não possuem login cadastrado
         functionaries = db.session\
                           .query(
                                 Funcionario.id_funcionario, 
@@ -35,7 +35,7 @@ class Funcionario(db.Model):
                             .outerjoin(
                                 Usuario, 
                                 and_(
-                                    Usuario.funcionario_id_funcionario == Funcionario.id_funcionario, 
+                                    Usuario.funcionario_id_funcionario == Funcionario.id_funcionario,
                                     Usuario.excluido_usuario == False
                                 )
                             )\
@@ -45,21 +45,22 @@ class Funcionario(db.Model):
                                     Funcionario.excluido_funcionario == False
                                 )
                             )
-       
-       #inicia lista com um valor em branco
+
+       # inicia lista com um valor em branco
         list = [(0, '')]
 
         for func in functionaries:
             list.append((func.id_funcionario, func.nome_funcionario))
-        
+
         return list
 
     def is_deleted(self):
         return self.excluido_funcionario
 
+
 class Usuario(db.Model, UserMixin):
     __tableName__ = "usuario"
-    
+
     login_usuario = db.Column(db.String, primary_key=True)
     senha_usuario = db.Column(db.String)
     nome_usuario = db.Column(db.String)
@@ -68,7 +69,7 @@ class Usuario(db.Model, UserMixin):
     situacao_usuario = db.Column(db.String)
     excluido_usuario = db.Column(db.Boolean)
     funcionario_id_funcionario = db.Column(db.Integer, db.ForeignKey('funcionario.id_funcionario'))
-    
+
     def __init__(self, login, senha, nome, email, tipo, situacao, id_funcionario):
         self.login_usuario = login
         self.senha_usuario = generate_password_hash(senha)
@@ -81,19 +82,19 @@ class Usuario(db.Model, UserMixin):
 
     def get_id(self):
         return self.login_usuario
-    
+
     def set_password(self, pwd):
-        self.senha_usuario =  generate_password_hash(pwd)
+        self.senha_usuario = generate_password_hash(pwd)
 
     def verify_password(self, pwd):
         return check_password_hash(self.senha_usuario, pwd)
-    
+
     def is_deleted(self):
         return self.excluido_usuario
 
     def is_manager(self):
         return self.tipo_usuario.lower() == 'gerente'
-    
+
     def is_active(self):
         return self.situacao_usuario.lower() == 'ativo'
         return check_password_hash(self.senha, pwd)
@@ -128,9 +129,9 @@ class Cliente(db.Model):
         self.situacao_cliente = situacao
         self.tipo_cliente = tipo
         self.excluido_cliente = False
-    
+
     def list_of_clients():
-        #retorna todos os clientes
+        # retorna todos os clientes
         clients = db.session\
                             .query(
                                 Cliente.id_cliente, 
@@ -139,13 +140,13 @@ class Cliente(db.Model):
                             .filter(
                                 Cliente.excluido_cliente == False
                             )
-        
-        #inicia lista com um valor em branco
+
+        # inicia lista com um valor em branco
         list = [(0, '')]
 
         for client in clients:
             list.append((client.id_cliente, client.nome_cliente))
-        
+
         return list
 
     def list_of_clients_no_monthly():
@@ -168,17 +169,18 @@ class Cliente(db.Model):
                             Mensalidade.situacao_mensalidade == 'pago'
                         )
                     )
-        
-        #inicia lista com um valor em branco
+
+        # inicia lista com um valor em branco
         list = [(0, '')]
 
         for client in clients:
             list.append((client.id_cliente, client.nome_cliente))
-        
+
         return list
 
     def is_deleted(self):
         return self.excluido_cliente
+
 
 class Veiculo(db.Model):
     __tableName__ = "veiculo"
@@ -201,9 +203,29 @@ class Veiculo(db.Model):
         self.ano_modelo_veiculo = anoModelo
         self.excluido_veiculo = False
         self.cliente_id_cliente = id_cliente
-    
+
+    def list_of_vehicles():
+        # retorna todos os clientes
+        vehicles = db.session\
+                            .query(
+                                Veiculo.placa_veiculo, 
+                                Veiculo.marca_veiculo
+                            )\
+                            .filter(
+                                Veiculo.excluido_veiculo == False
+                            )
+
+        # inicia lista com um valor em branco
+        list = [(0, '')]
+
+        for vehicle in vehicles:
+            list.append((vehicle.placa_veiculo, vehicle.marca_veiculo))
+
+        return list
+
     def is_deleted(self):
         return self.excluido_veiculo
+
 
 class Avaria(db.Model):
     id_avaria = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -212,14 +234,15 @@ class Avaria(db.Model):
     excluido_avaria = db.Column(db.Boolean)
     placa_veiculo_placa = db.Column(db.String, db.ForeignKey('veiculo.placa_veiculo'))
 
-    def __init__(self, descricao, observacao, placa_veiculo):
+    def __init__(self, descricao, observacao, placa_veiculo=None):
         self.descricao_avaria = descricao
         self.observacao_avaria = observacao
         self.placa_veiculo_placa = placa_veiculo
         self.excluido_avaria = False
-    
+
     def is_deleted(self):
         return self.excluido_avaria
+
 
 class Mensalidade(db.Model):
     __tableName__ = "mensalidade"
@@ -239,9 +262,10 @@ class Mensalidade(db.Model):
         self.situacao_mensalidade = situacao
         self.cliente_id_cliente = id_cliente
         self.excluido_mensalidade = False
-    
+
     def is_deleted(self):
         return self.excluido_mensalidade
+
 
 class Vaga(db.Model):
     __tableName__ = "vaga"
@@ -253,10 +277,15 @@ class Vaga(db.Model):
     excluido_vaga = db.Column(db.Boolean)
     veiculo_placa_veiculo = db.Column(db.String, db.ForeignKey('veiculo.placa_veiculo'))
 
-    def __init__(self, localizacao, codigo, situacao):
+    def __init__(self, localizacao, codigo, situacao, veiculo_placa_veiculo=None):
         self.localizacao_vaga = localizacao
         self.codigo_vaga = codigo
         self.situacao_vaga = situacao
+        self.veiculo_placa_veiculo = veiculo_placa_veiculo
+
+    def occupy_vacancy(self, veiculo_placa_veiculo):
+        self.veiculo_placa_veiculo = veiculo_placa_veiculo
+
 
 class Servico(db.Model):
     __tableName__ = "servico"
@@ -279,6 +308,7 @@ class Servico(db.Model):
 
     def is_deleted(self):
         return self.excluido_servico
+
 
 class Estacionamneto(db.Model):
     __tableName__ = "estacionamento"
@@ -307,9 +337,10 @@ class Estacionamneto(db.Model):
         self.veiculo_placa_veiculo = placa_veiculo
         self.vaga_id_vaga = id_vaga
         self.excluido_estacionamento = False
-    
+
     def is_deleted(self):
         return self.excluido_estacionamento
+
 
 class ServicoEstacionamento(db.Model):
     __tableName__ = "servico_estacionamento"
@@ -326,9 +357,10 @@ class ServicoEstacionamento(db.Model):
         self.nome_servico = nome
         self.preco_servico = preco
         self.excluido_servico = False
-    
+
     def is_deleted(self):
         return self.excluido_servico
+
 
 class UsuarioEstacionamento(db.Model):
     __tableName__ = "usuario_estacionamento"
