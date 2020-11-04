@@ -100,7 +100,7 @@ class MonthlyPayment(FlaskForm):
 class Parking(FlaskForm):
     id_estacionamento = IntegerField("id_estacionamento", validators=[DataRequired()])
     placa_veiculo = SelectField("placa_veiculo", validators=[DataRequired()])
-    id_vaga = IntegerField("id_vaga", validators=[DataRequired()])
+    id_vaga = SelectField("id_vaga", validators=[DataRequired()])
     entrada = DateTimeField("entrada", validators=[DataRequired()])
     saida = DateTimeField("saida", validators=[Optional()])
     observacao = StringField("observacao", validators=[Optional()])

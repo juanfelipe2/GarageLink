@@ -8,7 +8,7 @@ from app import db, login_manager, cross_origin
 from app.models.forms import Parking, ServiceParking
 from app.models.tables import Estacionamento, Veiculo, Cliente, Vaga, Servico, ServicoEstacionamento, UsuarioEstacionamento, and_
 
-@parking.route('/registrar-entrada', methods=['GET', 'POST'])
+@parking.route('/registrar-entrada-estacionamento', methods=['GET', 'POST'])
 def register_parking():
     if current_user.is_authenticated:
         form_parking = Parking()
@@ -20,11 +20,9 @@ def register_parking():
             entrada = form_parking.entrada.data
             saida = form_parking.saida.data
             observacao = form_parking.observacao.data
-            valor_total = form_parking.valor_total.data
+            valor_total = float(form_parking.valor_total.data)
             situacao = 'pendente'
             servicos = json.loads(form_parking.servicos.data)
-
-            print(servicos)
 
             parking = Estacionamento(
                 placa_veiculo=placa_veiculo,
@@ -55,7 +53,7 @@ def register_parking():
                         and_(
                                 Vaga.id_vaga == int(id_vaga), 
                                 Vaga.excluido_vaga == False,
-                                Vaga.veiculo_placa_veiculo != None
+                                Vaga.veiculo_placa_veiculo == None
                             )\
                         )\
                     .first()
@@ -82,9 +80,14 @@ def register_parking():
             return redirect(url_for('parking.list_parking'))
 
         #carrega combo box com a lista de funcionários
-        elif not form_parking.placa_veiculo.data:
-            form_parking.placa_veiculo.choices = Veiculo.list_of_vehicles()
-            form_parking.process()
+        else:
+            if not form_parking.placa_veiculo.data:
+                form_parking.placa_veiculo.choices = Veiculo.list_of_vehicle_no_parked()
+                form_parking.process()
+            
+            if not form_parking.id_vaga.data:
+                form_parking.id_vaga.choices = Vaga.list_of_spaces()
+                form_parking.process()
 
         return render_template('parking/parking_register.html', form_parking=form_parking, form_service=form_service)
 
@@ -103,74 +106,137 @@ def search_service(id_servico):
                         )\
                     .first()
         if service:
-            return jsonify({'id': service.id_servico,'nome': service.nome_servico,'descricao': service.descricao_servico, 'preco': service.preco_servico, 'tipo': service.tipo_servico}), 200
+            registry = {}
+            registry['id'] = service.id_servico
+            registry['nome'] = service.nome_servico
+            registry['descricao'] = service.descricao_servico
+            registry['preco'] = service.preco_servico
+            registry['tipo'] = service.tipo_servico
+
+            return jsonify(registry), 200
     return jsonify([{'error': 'Código inválido.'}]), 403
 
-@parking.route('/lista-registros-estacionamento', methods=['GET'])
+@parking.route('/lista-entradas-estacionamento', methods=['GET'])
 def list_parking():
     if current_user.is_authenticated:
-        parkings = Estacionamento.query.filter_by(excluido_estacionamento = False)
+        parkings = db.session.query(Estacionamento).filter(and_(Estacionamento.saida_estacionamento == None, Estacionamento.excluido_estacionamento == False))
         return render_template('parking/parking_list.html', parkings=parkings)
     return redirect('pagina-inicial')
 
 
-# @app.route('/editar-veiculo/<string:placa>', methods=['GET', 'POST'])
-# def edit_vehicle(placa):
+# @parking.route('/editar-registro-estacionamento/<string:id_estacionamento>', methods=['GET', 'POST'])
+# def edit_parking(id_estacionamento):
 #     if current_user.is_authenticated:
-#         form = VehicleForm()
+#         form_parking = Parking()
+#         form_service = ServiceParking()
 
-#         print(form.validate_on_submit())
-#         if form.is_submitted():
-#             # Obtem cliente cadastrado no banco de dados
-#             veiculo = Veiculo.query.filter_by(placa_veiculo=placa).first()
+#         if form_parking.is_submitted():
+#             placa_veiculo = form_parking.placa_veiculo.data
+#             id_vaga = form_parking.id_vaga.data
+#             entrada = form_parking.entrada.data
+#             saida = form_parking.saida.data
+#             observacao = form_parking.observacao.data
+#             valor_total = form_parking.valor_total.data
+#             servicos = json.loads(form_parking.servicos.data)
 
-#             # Informações do formulário
-#             placa = form.placa.data
-#             marca = form.marca.data
-#             modelo = form.modelo.data
-#             cor = form.cor.data
-#             anoFabricacao = form.anoFabricacao.data
-#             anoModelo = form.anoModelo.data
-#             id_cliente = form.id_cliente.data
+#             parking = Estacionamento.query.filter_by(id_estacionamento=id_estacionamento).first()
 
-#             # Altera informações para alteração no banco de dados
-#             veiculo.placa_veiculo = placa
-#             veiculo.marca_veiculo = marca
-#             veiculo.modelo_veiculo = modelo
-#             veiculo.cor_veiculo = cor
-#             veiculo.ano_fabricacao_veiculo = anoFabricacao
-#             veiculo.ano_modelo_veiculo = anoModelo
-#             veiculo.cliente_id_cliente = id_cliente
+#             parking.veiculo_placa_veiculo
+#             parking.vaga_id_vaga
+#             parking.observacao_estacionamento
+#             parking.valor_total_estacionamento
+#             parking.situacao_estacionamento
+
+#             parking = Estacionamento(
+#                 placa_veiculo=placa_veiculo,
+#                 id_vaga=id_vaga,
+#                 entrada=entrada,
+#                 saida=saida,
+#                 observacao=observacao,
+#                 valor_total=valor_total,
+#                 situacao=situacao
+#                 )
 
 #             # Grava no banco de dados
-#             db.session.add(veiculo)
+#             db.session.add(parking)
+#             db.session.commit()
+#             db.session.refresh(parking)
+
+#             user = UsuarioEstacionamento(
+#                 id_estacionamento=parking.id_estacionamento,
+#                 login_usuario=current_user.login_usuario
+#                 )
+
+#             db.session.add(user)
 #             db.session.commit()
 
-#             return redirect(url_for('list_vehicle'))
-        
-#         #carrega combo box com a lista de funcionários
-#         elif not form.id_cliente.data:
-#             veiculo = Veiculo.query.filter_by(placa_veiculo=placa).first()
+#             space = db.session\
+#                     .query(Vaga)\
+#                     .filter(
+#                         and_(
+#                                 Vaga.id_vaga == int(id_vaga), 
+#                                 Vaga.excluido_vaga == False,
+#                                 Vaga.veiculo_placa_veiculo != None
+#                             )\
+#                         )\
+#                     .first()
             
-#             form.id_cliente.choices = Cliente.list_of_clients()
-#             form.id_cliente.default = veiculo.cliente_id_cliente
-#             form.process()
+#             if space:
+#                 space.veiculo_placa_veiculo = placa_veiculo
+#                 space.situacao_vaga = 'ocupada'
+#                 db.session.add(space)
+#                 db.session.commit()
 
-#             return render_template(
-#                 'vehicles/vehicle_edit.html',
-#                 form=form,
-#                 veiculo=veiculo
+#             for servico in servicos:
+#                 service = ServicoEstacionamento(
+#                     id_estacionamento=parking.id_estacionamento,
+#                     id_servico=servico['id'],
+#                     nome=servico['nome'],
+#                     preco=servico['preco']
 #                 )
+#                 db.session.add(service)
+#                 db.session.commit()
+
+#             # Redireciona para lista de registros estacionamento
+#             return redirect(url_for('parking.list_parking'))
+
+#         #carrega combo box com a lista de funcionários
+#         elif not form_parking.placa_veiculo.data:
+#             form_parking.placa_veiculo.choices = Veiculo.list_of_vehicles()
+#             form_parking.process()
+
+#         return render_template('parking/parking_register.html', form_parking=form_parking, form_service=form_service)
 
 #     return redirect('pagina-inicial')
 
+@parking.route('/excluir-registro-estacionamento/<string:id_estacionamento>', methods=['GET', 'POST'])
+def delete_vehicle(id_estacionamento):
+    if current_user.is_authenticated:
 
-# @app.route('/excluir-veiculo/<string:placa>', methods=['GET', 'POST'])
-# def delete_vehicle(placa):
-#     if current_user.is_authenticated:
-#         veiculo = Veiculo.query.filter_by(placa_veiculo=placa).first()
-#         veiculo.excluido_veiculo = True
-#         db.session.add(veiculo)
-#         db.session.commit()
-#         return redirect(url_for('list_vehicle'))
-#     redirect('pagina-inicial')
+        parking = Estacionamento.query.filter_by(id_estacionamento=id_estacionamento).first()
+        if parking:
+            parking.excluido_estacionamento = True
+            db.session.add(parking)
+            db.session.commit()
+
+        space = Vaga.query.filter_by(id_vaga=parking.vaga_id_vaga).first()
+        if space:
+            space.veiculo_placa_veiculo = None
+            space.situacao_vaga = 'livre'
+            db.session.add(space)
+            db.session.commit()
+            
+        servico = ServicoEstacionamento.query.filter_by(estacionamento_id_estacionamento=id_estacionamento).first()
+        if servico:
+            servico.excluido_servico = True
+            db.session.add(servico)
+            db.session.commit()
+
+        usuario = UsuarioEstacionamento.query.filter_by(estacionamento_id_estacionamento=id_estacionamento).first()
+        if usuario:
+            usuario.excluido_usuario = True
+            db.session.add(usuario)
+            db.session.commit()
+
+        return redirect(url_for('parking.list_parking'))
+    redirect('pagina-inicial')

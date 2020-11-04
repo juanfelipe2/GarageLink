@@ -251,6 +251,44 @@
                                 </div>
                             </div>
                             <!-- Fim card Serviços -->
+
+                            <!-- Inicio card Estacionamento -->
+                            <div class="card-header" id="heading7">
+                                <h5 class="mb-2">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse7" aria-expanded="true" aria-controls="collapse7">
+                                        Estacionamento
+                                    </button>
+                                </h5>
+                            </div>
+
+                            {% if 'estacionamento' in request.path %}
+                                {% set class = 'collapse show' %}
+                            {% else %}
+                                {% set class = 'collapse' %}
+                            {% endif %}
+
+                            <div id="collapse7" class="{{ class }}" aria-labelledby="heading7" data-parent="#accordion">
+                                <div class="card-body p-0">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/lista-entradas-estacionamento'">Lista de Entradas Estacionamento</button>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/registrar-entrada-estacionamento'">Registrar Entrada Estacionamento</button>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/lsita-saidas-estacionamento'">Lista de Saídas Estacionamento</button>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <button class="btn btn-link" onclick="window.location.href = '/registrar-entrada-estacionamento'">Registrar Saída Estacionamento</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Fim card Estacionamento -->
                         </div>
                     </div>
                 </div>

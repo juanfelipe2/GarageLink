@@ -220,6 +220,34 @@ class Veiculo(db.Model):
         
         return list
 
+    def list_of_vehicle_no_parked():
+        vehicles = db.session\
+                    .query(
+                        Veiculo.placa_veiculo,
+                    )\
+                    .outerjoin(
+                        Estacionamento, 
+                        and_(
+                            Estacionamento.veiculo_placa_veiculo == Veiculo.placa_veiculo, 
+                            Estacionamento.excluido_estacionamento == False
+                        )
+                    )\
+                    .filter(
+                        Veiculo.excluido_veiculo == False,
+                        or_(
+                            Estacionamento.situacao_estacionamento == 'pago',
+                            Estacionamento.situacao_estacionamento == None
+                        )
+                    )
+
+        #inicia lista com um valor em branco
+        list = ['']
+
+        for vehicle in vehicles:
+            list.append(vehicle.placa_veiculo)
+        
+        return list
+
     def is_deleted(self):
         return self.excluido_veiculo
 
@@ -275,6 +303,29 @@ class Vaga(db.Model):
         self.localizacao_vaga = localizacao
         self.codigo_vaga = codigo
         self.situacao_vaga = situacao
+    
+    def list_of_spaces():
+        #retorna todos os clientes
+        spaces = db.session\
+                            .query(
+                                Vaga.id_vaga, 
+                                Vaga.codigo_vaga,
+                                Vaga.localizacao_vaga
+                            )\
+                            .filter(
+                                and_(
+                                    Vaga.veiculo_placa_veiculo == None,
+                                    Vaga.excluido_vaga == False
+                                )
+                            )
+        
+        #inicia lista com um valor em branco
+        list = [(0, '')]
+        print(spaces)
+        for space in spaces:
+            list.append((space.id_vaga, space.codigo_vaga + ' - ' + space.localizacao_vaga))
+        
+        return list
 
 class Servico(db.Model):
     __tableName__ = "servico"
