@@ -7,7 +7,7 @@ from app import app, db, login_manager
 from app.models.forms import VacancyForm
 from app.models.tables import Vaga, Veiculo
 
-@app.route('/cadastro-de-vagas', methods=['GET', 'POST'])
+@vacancy.route('/cadastro-de-vagas', methods=['GET', 'POST'])
 def register_vacancy():
     if current_user.is_authenticated:
         form = VacancyForm()
@@ -15,12 +15,12 @@ def register_vacancy():
         if form.is_submitted():
             localizacao_vaga = form.localizacao_vaga.data
             codigo_vaga = form.codigo_vaga.data
-            situacao_vaga = form.situacao_vaga.data
+            situacao_vaga = form.situacao_vaga.data.lower()
 
             vaga = Vaga(
-                localizacao_vaga=localizacao_vaga,
-                codigo_vaga=codigo_vaga,
-                situacao_vaga=situacao_vaga
+                localizacao=localizacao_vaga,
+                codigo=codigo_vaga,
+                situacao=situacao_vaga
                 )
 
             # Grava no banco de dados
@@ -28,19 +28,14 @@ def register_vacancy():
             db.session.commit()
 
             # Redireciona para lista de veiculos
-            return redirect(url_for('vacancy_list'))
-
-        # carrega combo box com a lista de funcionários
-        # elif not form.id_cliente.data:
-        #     form.id_cliente.choices = Cliente.list_of_clients()
-        #     form.process()
+            return redirect(url_for('vacancy.list_vacancy'))
 
         return render_template('vacancy/vacancy_register.html', form=form)
 
     return redirect('pagina-inicial')
 
 
-@app.route('/lista-de-vagas', methods=['GET'])
+@vacancy.route('/lista-de-vagas', methods=['GET'])
 def list_vacancy():
     if current_user.is_authenticated:
         vagas = Vaga.query.filter_by(excluido_vaga=False)
@@ -48,7 +43,7 @@ def list_vacancy():
     return redirect('pagina-inicial')
 
 
-@app.route('/editar-vaga/<string:id_vaga>', methods=['GET', 'POST'])
+@vacancy.route('/editar-vaga/<string:id_vaga>', methods=['GET', 'POST'])
 def edit_vacancy(id_vaga):
     if current_user.is_authenticated:
         form = VacancyForm()
@@ -66,20 +61,21 @@ def edit_vacancy(id_vaga):
             # Altera informações para alteração no banco de dados
             vaga.localizacao_vaga = localizacao_vaga
             vaga.codigo_vaga = codigo_vaga
-            vaga.situacao_vaga = situacao_vaga
+            vaga.situacao_vaga = situacao_vaga.lower()
 
             # Grava no banco de dados
             db.session.add(vaga)
             db.session.commit()
 
-            return redirect(url_for('vacancy_list'))
+            return redirect(url_for('vacancy.list_vacancy'))
 
-        elif not form.id_cliente.data:
+        elif not form.id_vaga.data:
             vaga = Vaga.query.filter_by(id_vaga=id_vaga).first()
 
             # form.id_cliente.choices = Cliente.list_of_clients()
-            # form.id_cliente.default = veiculo.cliente_id_cliente
-            form.process()
+            if vaga:
+                form.situacao_vaga.default = vaga.situacao_vaga.capitalize()
+                form.process()
 
             return render_template(
                 'vacancy/vacancy_edit.html',
@@ -90,7 +86,7 @@ def edit_vacancy(id_vaga):
     return redirect('pagina-inicial')
 
 
-@app.route('/linkar-vaga/<string:id_vaga>', methods=['GET', 'POST'])
+@vacancy.route('/linkar-vaga/<string:id_vaga>', methods=['GET', 'POST'])
 def link_vacancy(id_vaga):
     if current_user.is_authenticated:
         form = VacancyForm()
@@ -113,7 +109,7 @@ def link_vacancy(id_vaga):
             db.session.add(vaga)
             db.session.commit()
 
-            return redirect(url_for('vacancy_list'))
+            return redirect(url_for('vacancy.list_vacancy'))
         elif not form.veiculo_placa_veiculo.data:
             vaga = Vaga.query.filter_by(id_vaga=id_vaga).first()
 
@@ -130,12 +126,12 @@ def link_vacancy(id_vaga):
     return redirect('pagina-inicial')
 
 
-@app.route('/excluir-vaga/<string:id_vaga>', methods=['GET', 'POST'])
+@vacancy.route('/excluir-vaga/<string:id_vaga>', methods=['GET', 'POST'])
 def delete_vacancy(id_vaga):
     if current_user.is_authenticated:
         vaga = Vaga.query.filter_by(id_vaga=id_vaga).first()
         vaga.excluido_vaga = True
         db.session.add(vaga)
         db.session.commit()
-        return redirect(url_for('vacancy_list'))
+        return redirect(url_for('vacancy.list_vacancy'))
     redirect('pagina-inicial')
