@@ -1,8 +1,17 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SelectField, IntegerField, FloatField, DateField, DateTimeField, HiddenField
+from wtforms import StringField
+from wtforms import PasswordField
+from wtforms import BooleanField
+from wtforms import SelectField
+from wtforms import IntegerField
+from wtforms import FloatField
+from wtforms import DateField
+from wtforms import DateTimeField
+from wtforms import HiddenField
 from wtforms.validators import DataRequired, Optional
 from app.models.tables import Funcionario, Usuario
 from app import db
+
 
 class FunctionaryForm(FlaskForm):
     id_funcionario = StringField("id_funcionario", validators=[Optional()])
@@ -21,6 +30,7 @@ class FunctionaryForm(FlaskForm):
 class UserLoginForm(FlaskForm):
     login = StringField("login", validators=[DataRequired()])
     senha = PasswordField("senha", validators=[DataRequired()])
+
 
 class UserForm(FlaskForm):
     nome = StringField("nome", validators=[DataRequired()])
@@ -69,6 +79,7 @@ class VehicleForm(FlaskForm):
     anoFabricacao = StringField("anoFabricacao", validators=[DataRequired()])
     anoModelo = StringField("anoModelo", validators=[DataRequired()])
 
+
 class ServiceForm(FlaskForm):
     id_servico = IntegerField("id_servico", validators=[Optional()])
     nome = StringField("nome", validators=[DataRequired()])
@@ -84,6 +95,7 @@ class ServiceForm(FlaskForm):
             validators=[DataRequired()],
             choices=['', 'Ativo', 'Inativo']
         )
+
 
 class MonthlyPayment(FlaskForm):
     id_cliente = SelectField("id_cliente", validators=[Optional()])
@@ -123,3 +135,26 @@ class ServiceParking(FlaskForm):
      id_servico = IntegerField("id_servico", validators=[DataRequired()])
      nome = StringField("nome", validators=[DataRequired()])
      preco = FloatField("preco", validators=[DataRequired()])
+
+class VacancyForm(FlaskForm):
+    id_vaga = IntegerField("id_vaga", validators=[Optional()])
+    localizacao_vaga = StringField(
+        "localizacao_vaga", validators=[DataRequired()]
+        )
+    codigo_vaga = StringField("codigo_vaga", validators=[DataRequired()])
+    situacao_vaga = StringField("situacao_vaga", validators=[DataRequired()])
+    situacao_vaga = SelectField(
+            "situacao_vaga",
+            validators=[DataRequired()],
+            choices=['', 'Livre', 'Ocupada']
+        )
+    veiculo_placa_veiculo = StringField("veiculo_placa_veiculo", validators=[Optional()])
+
+
+class DamageForm(FlaskForm):
+    id_avaria = IntegerField("id_avaria", validators=[Optional()])
+    descricao_avaria = StringField(
+        "descricao_avaria", validators=[DataRequired()]
+        )
+    observacao_avaria = StringField("observacao_avaria", validators=[DataRequired()])
+    placa_veiculo = SelectField("placa_veiculo", validators=[DataRequired()], choices=[''])

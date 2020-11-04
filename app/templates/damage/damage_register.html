@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="d-flex justify-content-center mt-3 p-sm-2 col-xs-12 col-sm-10 bg-white">
+        <div class="col-sm-8 col-xs-12">
+            <h2 class="mb-2">Cadastrar Avaria</h2>
+
+            <form method="POST">
+                {{ form.csrf_token }}
+
+                <div class="form-group">
+                    <label for="placa_veiculo">Placa do Veículo</label>
+                    {{ form.placa_veiculo(id="placa_veiculo", class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao_avaria">Descrição da Avaria</label>
+                    {{ form.descricao_avaria(id="descricao_avaria", class="form-control", placeholder="Digite a localização da avaria") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="observacao_avaria">Observação da Avaria</label>
+                    {{ form.observacao_avaria(id="observacao_avaria", class="form-control", placeholder="Digite a situação da avaria") }}
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-primary mr-4" type="submit">Salvar</button>
+                    <a class="btn btn-danger" href="/lista-de-avarias">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
