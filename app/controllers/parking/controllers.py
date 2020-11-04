@@ -225,15 +225,15 @@ def delete_vehicle(id_estacionamento):
             space.situacao_vaga = 'livre'
             db.session.add(space)
             db.session.commit()
-            
-        servico = ServicoEstacionamento.query.filter_by(estacionamento_id_estacionamento=id_estacionamento).first()
-        if servico:
+        
+        servicos = db.session.query(ServicoEstacionamento).filter(and_(ServicoEstacionamento.estacionamento_id_estacionamento == id_estacionamento, ServicoEstacionamento.excluido_servico == False))
+        for servico in servicos:
             servico.excluido_servico = True
             db.session.add(servico)
             db.session.commit()
 
-        usuario = UsuarioEstacionamento.query.filter_by(estacionamento_id_estacionamento=id_estacionamento).first()
-        if usuario:
+        usuarios = db.session.query(UsuarioEstacionamento).filter(and_(UsuarioEstacionamento.estacionamento_id_estacionamento == id_estacionamento, UsuarioEstacionamento.excluido_usuario == False))
+        for usuario in usuarios:
             usuario.excluido_usuario = True
             db.session.add(usuario)
             db.session.commit()
