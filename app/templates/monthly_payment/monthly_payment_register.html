@@ -9,7 +9,7 @@
                 {{ form.csrf_token }}
 
                 <div class="form-group">
-                    <label for="id_cliente">Id Cliente</label>
+                    <label for="id_cliente">Cliente</label>
                     {{ form.id_cliente(id="id_cliente", class="form-control") }}
                 </div>
 
@@ -40,4 +40,10 @@
             </form>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#id_cliente').select2();
+        });
+    </script>
 {% endblock %}

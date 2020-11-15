@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <div class="d-flex justify-content-center mt-3 p-sm-2 col-xs-12 col-sm-10 bg-white">
+    <div class="d-flex justify-content-center mt-3 p-sm-2 col-xs-12 col-sm-10">
         <div class="col-sm-8 col-xs-12">
             <h2 class="mb-2">Cadastrar Veículo</h2>
 
@@ -50,4 +50,10 @@
             </form>
         </div>
     </div>
+    
+    <script>
+        $(document).ready(function() {
+            $('#id_cliente').select2();
+        });
+    </script>
 {% endblock %}

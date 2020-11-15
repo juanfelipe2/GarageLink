@@ -1,6 +1,6 @@
 from app import db
 from flask_login import UserMixin
-from sqlalchemy import and_, or_
+from sqlalchemy import and_, or_, distinct
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -225,7 +225,7 @@ class Veiculo(db.Model):
     def list_of_vehicle_no_parked():
         vehicles = db.session\
                     .query(
-                        Veiculo.placa_veiculo
+                        distinct(Veiculo.placa_veiculo)
                     )\
                     .outerjoin(
                         Estacionamento, 
@@ -234,8 +234,18 @@ class Veiculo(db.Model):
                             Estacionamento.excluido_estacionamento == False
                         )
                     )\
+                    .outerjoin(
+                        Vaga, 
+                        and_(
+                            Vaga.veiculo_placa_veiculo == Veiculo.placa_veiculo, 
+                            Vaga.excluido_vaga == False
+                        )
+                    )\
                     .filter(
-                        Veiculo.excluido_veiculo == False,
+                        and_(
+                            Veiculo.excluido_veiculo == False,
+                            Vaga.veiculo_placa_veiculo == None
+                        ),
                         or_(
                             Estacionamento.situacao_estacionamento == 'pago',
                             Estacionamento.situacao_estacionamento == None
@@ -243,10 +253,11 @@ class Veiculo(db.Model):
                     )
 
         #inicia lista com um valor em branco
+        print(vehicles)
         list = ['']
 
         for vehicle in vehicles:
-            list.append(vehicle.placa_veiculo)
+            list.append(vehicle[0])
         
         return list
 
@@ -328,7 +339,6 @@ class Vaga(db.Model):
         
         #inicia lista com um valor em branco
         list = [(0, '')]
-        print(spaces)
         for space in spaces:
             list.append((space.id_vaga, space.codigo_vaga + ' - ' + space.localizacao_vaga))
         
@@ -369,6 +379,7 @@ class Estacionamento(db.Model):
     entrada_estacionamento = db.Column(db.String)
     saida_estacionamento = db.Column(db.String)
     observacao_estacionamento = db.Column(db.String)
+    valor_liquido_estacionamento = db.Column(db.Float)
     valor_total_estacionamento = db.Column(db.Float)
     valor_recebido_estacionamento = db.Column(db.Float)
     desconto_estacionamento = db.Column(db.Integer)
@@ -378,12 +389,13 @@ class Estacionamento(db.Model):
     veiculo_placa_veiculo = db.Column(db.String, db.ForeignKey('veiculo.placa_veiculo'))
     vaga_id_vaga = db.Column(db.Integer, db.ForeignKey('vaga.id_vaga'))
 
-    def __init__(self, placa_veiculo, id_vaga, entrada, saida, observacao, valor_total, situacao):
+    def __init__(self, placa_veiculo, id_vaga, entrada, saida, observacao, valor_liquido, valor_total, situacao):
         self.veiculo_placa_veiculo = placa_veiculo
         self.vaga_id_vaga = id_vaga
         self.entrada_estacionamento = entrada
         self.saida_estacionamento = saida
         self.observacao_estacionamento = observacao
+        self.valor_liquido_estacionamento = valor_liquido
         self.valor_total_estacionamento = valor_total
         self.situacao_estacionamento = situacao
         self.excluido_estacionamento = False
@@ -395,8 +407,9 @@ class Estacionamento(db.Model):
 class ServicoEstacionamento(db.Model):
     __tableName__ = "servico_estacionamento"
 
-    estacionamento_id_estacionamento = db.Column(db.Integer, db.ForeignKey("estacionamento.id_estacionamento"), primary_key=True)
-    servico_id_servico = db.Column(db.Integer, db.ForeignKey("servico.id_servico"), primary_key=True)
+    id_servico_estacionamento = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    estacionamento_id_estacionamento = db.Column(db.Integer, db.ForeignKey("estacionamento.id_estacionamento"))
+    servico_id_servico = db.Column(db.Integer, db.ForeignKey("servico.id_servico"))
     nome_servico = db.Column(db.String)
     preco_servico = db.Column(db.Float)
     excluido_servico = db.Column(db.Boolean)

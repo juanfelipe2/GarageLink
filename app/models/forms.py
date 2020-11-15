@@ -114,10 +114,14 @@ class Parking(FlaskForm):
     placa_veiculo = SelectField("placa_veiculo", validators=[DataRequired()])
     id_vaga = SelectField("id_vaga", validators=[DataRequired()])
     entrada = DateTimeField("entrada", validators=[DataRequired()])
-    saida = DateTimeField("saida", validators=[Optional()])
+    saida = DateTimeField("saida", validators=[DataRequired()])
+    tempo_permanencia = DateTimeField("tempo_permanencia", validators=[DataRequired()])
     observacao = StringField("observacao", validators=[Optional()])
+    desconto = FloatField("desconto", validators=[Optional()])
+    valor_liquido = FloatField("valor_liquido", validators=[DataRequired()])
     valor_total = FloatField("valor_total", validators=[DataRequired()])
-    valor_recebido = FloatField("valor_recebido", validators=[Optional()])
+    valor_recebido = FloatField("valor_recebido", validators=[DataRequired()])
+    troco = FloatField("troco", validators=[Optional()])
     desconto = IntegerField("desconto", validators=[Optional()])
     tipo_pagamento = SelectField(
             "tipo_pagamento",
@@ -130,6 +134,7 @@ class Parking(FlaskForm):
             choices=['', 'Pago', 'Em aberto']
         )
     servicos = HiddenField("servicos")
+    servicos = HiddenField("valor_hora")
 
 class ServiceParking(FlaskForm):
      id_servico = IntegerField("id_servico", validators=[DataRequired()])

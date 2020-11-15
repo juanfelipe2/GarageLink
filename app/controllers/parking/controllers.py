@@ -21,6 +21,7 @@ def register_parking():
             saida = form_parking.saida.data
             observacao = form_parking.observacao.data
             valor_total = float(form_parking.valor_total.data)
+            valor_liquido = valor_total
             situacao = 'pendente'
             servicos = json.loads(form_parking.servicos.data)
 
@@ -30,6 +31,7 @@ def register_parking():
                 entrada=entrada,
                 saida=saida,
                 observacao=observacao,
+                valor_liquido=valor_liquido,
                 valor_total=valor_total,
                 situacao=situacao
                 )
@@ -101,6 +103,7 @@ def search_service(id_servico):
                     .filter(
                         and_(
                                 Servico.id_servico == int(id_servico), 
+                                Servico.situacao_servico == 'ativo',
                                 Servico.excluido_servico == False
                             )\
                         )\
@@ -116,6 +119,35 @@ def search_service(id_servico):
             return jsonify(registry), 200
     return jsonify([{'error': 'Código inválido.'}]), 403
 
+@parking.route('/todos-servicos', methods=['GET'])
+def all_services():
+    # if current_user.is_authenticated:
+    services = db.session\
+                .query(Servico)\
+                .filter(
+                    and_(
+                            Servico.situacao_servico == 'ativo',
+                            Servico.excluido_servico == False
+                        )\
+                    )
+    registry = [
+        {
+            'id': 0,
+            'nome': ""
+        }
+    ]
+    
+    for service in services:
+        registry.append(
+            {
+                'id': service.id_servico,
+                'nome': service.nome_servico
+            }
+        )
+
+    return jsonify(registry), 200
+    # return jsonify([{'error': 'Código inválido.'}]), 403
+
 @parking.route('/lista-entradas-estacionamento', methods=['GET'])
 def list_parking():
     if current_user.is_authenticated:
@@ -124,90 +156,247 @@ def list_parking():
     return redirect('pagina-inicial')
 
 
-# @parking.route('/editar-registro-estacionamento/<string:id_estacionamento>', methods=['GET', 'POST'])
-# def edit_parking(id_estacionamento):
-#     if current_user.is_authenticated:
-#         form_parking = Parking()
-#         form_service = ServiceParking()
+@parking.route('/editar-registro-estacionamento/<string:id_estacionamento>', methods=['GET', 'POST'])
+def edit_parking(id_estacionamento):
+    if current_user.is_authenticated:
+        form_parking = Parking()
 
-#         if form_parking.is_submitted():
-#             placa_veiculo = form_parking.placa_veiculo.data
-#             id_vaga = form_parking.id_vaga.data
-#             entrada = form_parking.entrada.data
-#             saida = form_parking.saida.data
-#             observacao = form_parking.observacao.data
-#             valor_total = form_parking.valor_total.data
-#             servicos = json.loads(form_parking.servicos.data)
+        if form_parking.is_submitted():
+            placa_veiculo = form_parking.placa_veiculo.data
+            id_vaga = form_parking.id_vaga.data
+            observacao = form_parking.observacao.data
+            valor_total = float(form_parking.valor_total.data)
+            servicos = json.loads(form_parking.servicos.data)
 
-#             parking = Estacionamento.query.filter_by(id_estacionamento=id_estacionamento).first()
+            parking = Estacionamento.query.filter_by(id_estacionamento=id_estacionamento).first()
+            id_vaga_origem = parking.vaga_id_vaga
 
-#             parking.veiculo_placa_veiculo
-#             parking.vaga_id_vaga
-#             parking.observacao_estacionamento
-#             parking.valor_total_estacionamento
-#             parking.situacao_estacionamento
+            parking.veiculo_placa_veiculo = placa_veiculo
+            parking.vaga_id_vaga = id_vaga
+            parking.observacao_estacionamento = observacao
+            parking.valor_liquido_estacionamento = valor_total
+            parking.valor_total_estacionamento = valor_total
 
-#             parking = Estacionamento(
-#                 placa_veiculo=placa_veiculo,
-#                 id_vaga=id_vaga,
-#                 entrada=entrada,
-#                 saida=saida,
-#                 observacao=observacao,
-#                 valor_total=valor_total,
-#                 situacao=situacao
-#                 )
+            # Grava no banco de dados
+            db.session.add(parking)
+            db.session.commit()
 
-#             # Grava no banco de dados
-#             db.session.add(parking)
-#             db.session.commit()
-#             db.session.refresh(parking)
+            space_origin = Vaga.query.filter_by(id_vaga=id_vaga).first()
 
-#             user = UsuarioEstacionamento(
-#                 id_estacionamento=parking.id_estacionamento,
-#                 login_usuario=current_user.login_usuario
-#                 )
-
-#             db.session.add(user)
-#             db.session.commit()
-
-#             space = db.session\
-#                     .query(Vaga)\
-#                     .filter(
-#                         and_(
-#                                 Vaga.id_vaga == int(id_vaga), 
-#                                 Vaga.excluido_vaga == False,
-#                                 Vaga.veiculo_placa_veiculo != None
-#                             )\
-#                         )\
-#                     .first()
+            space = db.session\
+                    .query(Vaga)\
+                    .filter(
+                        and_(
+                                Vaga.id_vaga == int(id_vaga), 
+                                Vaga.excluido_vaga == False,
+                                Vaga.veiculo_placa_veiculo == None
+                            )\
+                        )\
+                    .first()
             
-#             if space:
-#                 space.veiculo_placa_veiculo = placa_veiculo
-#                 space.situacao_vaga = 'ocupada'
-#                 db.session.add(space)
-#                 db.session.commit()
+            if space:
+                space.veiculo_placa_veiculo = placa_veiculo
+                space.situacao_vaga = 'ocupada'
+                db.session.add(space)
+                db.session.commit()
+            
+            if space_origin:
+                space_origin.veiculo_placa_veiculo = None
+                space_origin.situacao_vaga = 'livre'
+                db.session.add(space_origin)
+                db.session.commit()
 
-#             for servico in servicos:
-#                 service = ServicoEstacionamento(
-#                     id_estacionamento=parking.id_estacionamento,
-#                     id_servico=servico['id'],
-#                     nome=servico['nome'],
-#                     preco=servico['preco']
-#                 )
-#                 db.session.add(service)
-#                 db.session.commit()
+            for servico in servicos:
+                service = db.session\
+                            .query(ServicoEstacionamento)\
+                            .filter(
+                                and_(
+                                    ServicoEstacionamento.estacionamento_id_estacionamento == id_estacionamento,
+                                    ServicoEstacionamento.servico_id_servico == servico['id_origem'],
+                                    ServicoEstacionamento.excluido_servico == False
+                                )
+                            ).first()
+                print(service)
+                if service:
+                    service.servico_id_servico = servico['id']
+                    service.nome_servico = servico['nome']
+                    service.preco_servico = servico['preco']
+                    service.excluido_servico = servico['excluido'] == 'true'
+                else:
+                    service = ServicoEstacionamento(
+                        id_estacionamento=parking.id_estacionamento,
+                        id_servico=servico['id'],
+                        nome=servico['nome'],
+                        preco=servico['preco']
+                    )
+                db.session.add(service)
+                db.session.commit()
 
-#             # Redireciona para lista de registros estacionamento
-#             return redirect(url_for('parking.list_parking'))
+            # Redireciona para lista de registros estacionamento
+            return redirect(url_for('parking.list_parking'))
 
-#         #carrega combo box com a lista de funcionários
-#         elif not form_parking.placa_veiculo.data:
-#             form_parking.placa_veiculo.choices = Veiculo.list_of_vehicles()
-#             form_parking.process()
+        else:
+            parking = Estacionamento.query.filter_by(id_estacionamento=id_estacionamento).first()
+            services = db.session\
+                        .query(
+                            Servico.id_servico,
+                            ServicoEstacionamento.nome_servico, 
+                            Servico.descricao_servico,
+                            ServicoEstacionamento.preco_servico,
+                            Servico.tipo_servico
+                        )\
+                        .join(
+                            Servico, 
+                            ServicoEstacionamento.servico_id_servico == Servico.id_servico
+                        )\
+                        .filter(
+                            ServicoEstacionamento.estacionamento_id_estacionamento == id_estacionamento,
+                            ServicoEstacionamento.excluido_servico == False
+                        )
 
-#         return render_template('parking/parking_register.html', form_parking=form_parking, form_service=form_service)
+            space = Vaga.query.filter_by(id_vaga=parking.vaga_id_vaga).first()
 
-#     return redirect('pagina-inicial')
+            if not form_parking.placa_veiculo.data:
+                list = Veiculo.list_of_vehicle_no_parked()
+                list.append(parking.veiculo_placa_veiculo)
+                list.sort()
+                form_parking.placa_veiculo.choices = list
+                form_parking.placa_veiculo.default = parking.veiculo_placa_veiculo
+                form_parking.process()
+            
+            if not form_parking.id_vaga.data:
+                list = Vaga.list_of_spaces()
+                list.append((space.id_vaga, space.codigo_vaga + ' - ' + space.localizacao_vaga))
+                list.sort()
+                form_parking.id_vaga.choices = list
+                form_parking.id_vaga.default = parking.vaga_id_vaga
+                form_parking.process()
+
+            return render_template(
+                    'parking/parking_edit.html',
+                    form_parking=form_parking,
+                    parking=parking,
+                    services=services,
+                    saida=False,
+                    read_only=False
+                )
+
+    return redirect('pagina-inicial')
+
+
+@parking.route('/registro-saida-estacionamento/<string:id_estacionamento>', methods=['GET', 'POST'])
+def exit_parking(id_estacionamento):
+    if current_user.is_authenticated:
+        form_parking = Parking()
+
+        if form_parking.is_submitted():
+            observacao = form_parking.observacao.data
+            tipo_pagamento = form_parking.tipo_pagamento.data
+            desconto = float(form_parking.desconto.data)
+            saida = form_parking.saida.data
+            valor_recebido = float(form_parking.valor_recebido.data)
+            valor_liquido = float(form_parking.valor_liquido.data)
+            valor_total = float(form_parking.valor_total.data)
+            servicos = json.loads(form_parking.servicos.data)
+
+            parking = Estacionamento.query.filter_by(id_estacionamento=id_estacionamento).first()
+
+            parking.observacao_estacionamento = observacao
+            parking.tipo_pagamento_estacionamento = tipo_pagamento
+            parking.saida_estacionamento = saida
+            parking.desconto_estacionamento = desconto
+            parking.valor_recebido_estacionamento = valor_recebido
+            parking.valor_liquido_estacionamento = valor_liquido
+            parking.valor_total_estacionamento = valor_total
+            parking.situacao_estacionamento = 'pago'
+
+            # Grava no banco de dados
+            db.session.add(parking)
+            db.session.commit()
+
+            space = Vaga.query.filter_by(id_vaga=parking.vaga_id_vaga).first()
+
+            if space:
+                space.veiculo_placa_veiculo = None
+                space.situacao_vaga = 'livre'
+                db.session.add(space)
+                db.session.commit()
+
+            for servico in servicos:
+                service = db.session\
+                            .query(ServicoEstacionamento)\
+                            .filter(
+                                and_(
+                                    ServicoEstacionamento.estacionamento_id_estacionamento == id_estacionamento,
+                                    ServicoEstacionamento.servico_id_servico == servico['id_origem'],
+                                    ServicoEstacionamento.excluido_servico == False
+                                )
+                            ).first()
+                            
+                if service:
+                    service.servico_id_servico = servico['id']
+                    service.nome_servico = servico['nome']
+                    service.preco_servico = servico['preco']
+                    service.excluido_servico = servico['excluido'] == 'true'
+                else:
+                    service = ServicoEstacionamento(
+                        id_estacionamento=parking.id_estacionamento,
+                        id_servico=servico['id'],
+                        nome=servico['nome'],
+                        preco=servico['preco']
+                    )
+                db.session.add(service)
+                db.session.commit()
+
+            # Redireciona para lista de registros estacionamento
+            return redirect(url_for('parking.list_parking'))
+
+        else:
+            parking = Estacionamento.query.filter_by(id_estacionamento=id_estacionamento).first()
+            services = db.session\
+                        .query(
+                            Servico.id_servico,
+                            ServicoEstacionamento.nome_servico, 
+                            Servico.descricao_servico,
+                            ServicoEstacionamento.preco_servico,
+                            Servico.tipo_servico
+                        )\
+                        .join(
+                            Servico, 
+                            ServicoEstacionamento.servico_id_servico == Servico.id_servico
+                        )\
+                        .filter(
+                            ServicoEstacionamento.estacionamento_id_estacionamento == id_estacionamento,
+                            ServicoEstacionamento.excluido_servico == False
+                        )
+
+            space = Vaga.query.filter_by(id_vaga=parking.vaga_id_vaga).first()
+
+            if not form_parking.placa_veiculo.data:
+                list = []
+                list.append(parking.veiculo_placa_veiculo)
+                form_parking.placa_veiculo.choices = list
+                form_parking.placa_veiculo.default = parking.veiculo_placa_veiculo
+                form_parking.process()
+            
+            if not form_parking.id_vaga.data:
+                list = []
+                list.append((space.id_vaga, space.codigo_vaga + ' - ' + space.localizacao_vaga))
+                form_parking.id_vaga.choices = list
+                form_parking.id_vaga.default = parking.vaga_id_vaga
+                form_parking.process()
+
+            return render_template(
+                    'parking/parking_edit.html',
+                    form_parking=form_parking,
+                    parking=parking,
+                    services=services,
+                    saida=True,
+                    read_only=True
+                )
+
+    return redirect('pagina-inicial')
+
 
 @parking.route('/excluir-registro-estacionamento/<string:id_estacionamento>', methods=['GET', 'POST'])
 def delete_vehicle(id_estacionamento):

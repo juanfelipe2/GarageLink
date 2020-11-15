@@ -33,21 +33,21 @@
                     </div>
 
                     <div class="form-group col-4">
-                        <label for="saida">Data/hora Saída</label>
-                        {{ form_parking.saida(id="saida", class="form-control", placeholder="", readonly=True ) }}
+                        <label for="situacao">Situação Pagamento</label>
+                        {{ form_parking.saida(id="situacao", class="form-control", placeholder="", readonly=True, value='Pendente' ) }}
                     </div>
 
                     <div class="form-group col-4">
-                        <label for="valor_total">Valor Total</label>
+                        <label for="valor_total">Valor Total Serviços</label>
                         {{ form_parking.valor_total(id="valor_total", class="form-control", placeholder="", value=0, readonly=True ) }}
                     </div>
                 </div>
 
-                <div class="m-3">
+                <div class="ml-3 mt-3">
                     <button id="addService" class="btn btn-primary mr-2" type="button">Adicionar serviço</button>
                     <button id="removeService" class="btn btn-danger" type="button">Remover serviço </button>
                 </div>
-
+                
                 <div class="table-responsive col-12">
                     <table id="serviceParking" name="services" class="table table-striped table-bordered">
                         <thead class="thead-default bg-white">
@@ -57,6 +57,7 @@
                                 <th>Descrição</th>
                                 <th>Preço</th>
                                 <th>Tipo</th>
+                                <th>Origem</th>
                                 <th>Excluido</th>
                             </tr>
                         </thead>
@@ -69,6 +70,7 @@
                                 <td>0</td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                         </tbody>
     
@@ -79,10 +81,18 @@
 
                 <div class="text-center mt-4">
                     <button id="buttonSubmit" class="btn btn-primary mr-4" type="submit">Salvar</button>
-                    <a class="btn btn-danger" href="/">Voltar</a>
+                    <a class="btn btn-danger" href="/lista-entradas-estacionamento">Voltar</a>
                 </div>
             </form>
         </div>
     </div>
+
+    <script>
+        setTimerEntry();
+        $(document).ready(function() {
+            $('#placa_veiculo').select2();
+            $('#id_vaga').select2();
+        });
+    </script>
 
 {% endblock %}
