@@ -338,7 +338,7 @@ class Vaga(db.Model):
                             )
         
         #inicia lista com um valor em branco
-        list = [(0, '')]
+        list = [('', '')]
         for space in spaces:
             list.append((space.id_vaga, space.codigo_vaga + ' - ' + space.localizacao_vaga))
         
