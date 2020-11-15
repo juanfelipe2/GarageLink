@@ -4,7 +4,7 @@ from wtforms.validators import Optional
 import json
 
 from . import parking
-from app import db, login_manager, cross_origin
+from app import db, login_manager
 from app.models.forms import Parking, ServiceParking
 from app.models.tables import Estacionamento, Veiculo, Cliente, Vaga, Servico, ServicoEstacionamento, UsuarioEstacionamento, and_
 

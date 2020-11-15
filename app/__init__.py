@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager, Server
 from flask_migrate import Migrate, MigrateCommand
 from flask_login import LoginManager
-from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -11,7 +10,6 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login_manager = LoginManager(app)
-cors = CORS(app)
 server = Server(host=app.config.get('HOST'), port=app.config.get('PORT'))
 
 manager = Manager(app)
