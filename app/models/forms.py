@@ -71,7 +71,7 @@ class ClientForm(FlaskForm):
 
 
 class VehicleForm(FlaskForm):
-    id_cliente = SelectField("id_cliente", validators=[Optional()])
+    id_cliente = SelectField("id_cliente", validators=[DataRequired()])
     placa = StringField("placa", validators=[DataRequired()])
     marca = StringField("marca", validators=[DataRequired()])
     modelo = StringField("modelo", validators=[DataRequired()])
@@ -98,7 +98,7 @@ class ServiceForm(FlaskForm):
 
 
 class MonthlyPayment(FlaskForm):
-    id_cliente = SelectField("id_cliente", validators=[Optional()])
+    id_cliente = SelectField("id_cliente", validators=[DataRequired()])
     id_mensalidade = IntegerField("id_mensalidade", validators=[Optional()])
     valor = FloatField("valor", validators=[DataRequired()])
     data_vencimento = DateField("data_vencimento", validators=[DataRequired()])

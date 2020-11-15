@@ -47,7 +47,7 @@ class Funcionario(db.Model):
                             )
 
        # inicia lista com um valor em branco
-        list = [(0, '')]
+        list = [('', '')]
 
         for func in functionaries:
             list.append((func.id_funcionario, func.nome_funcionario))
@@ -142,7 +142,7 @@ class Cliente(db.Model):
                             )
 
         # inicia lista com um valor em branco
-        list = [(0, '')]
+        list = [('', '')]
 
         for client in clients:
             list.append((client.id_cliente, client.nome_cliente))
@@ -171,7 +171,7 @@ class Cliente(db.Model):
                     )
 
         # inicia lista com um valor em branco
-        list = [(0, '')]
+        list = [('', '')]
 
         for client in clients:
             list.append((client.id_cliente, client.nome_cliente))
