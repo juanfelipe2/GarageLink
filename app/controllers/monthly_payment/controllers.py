@@ -47,7 +47,7 @@ def register_monthly_payment():
 
 @monthly_payment.route('/lista-de-mensalidades', methods=['GET'])
 def list_monthly_payment():
-    if current_user.is_authenticated and current_user.is_manager():
+    if current_user.is_authenticated:
         monthly_payments = Mensalidade.query.filter_by(excluido_mensalidade = False)
         return render_template('monthly_payment/monthly_payment_list.html', monthly_payments=monthly_payments)
 
@@ -55,7 +55,7 @@ def list_monthly_payment():
 
 @monthly_payment.route('/editar-mensalidade/<string:id_mensalidade>', methods=['GET','POST'])
 def edit_monthly_payment(id_mensalidade):
-    if current_user.is_authenticated and current_user.is_manager():
+    if current_user.is_authenticated:
         form = MonthlyPayment()
 
         if form.is_submitted():
@@ -95,7 +95,7 @@ def edit_monthly_payment(id_mensalidade):
 
 @monthly_payment.route('/excluir-mensalidade/<string:id_mensalidade>', methods=['GET','POST'])
 def delete_monthly_payment(id_mensalidade):
-    if current_user.is_authenticated and current_user.is_manager():
+    if current_user.is_authenticated:
         monthly_payment = Mensalidade.query.filter_by(id_mensalidade=id_mensalidade).first()
         monthly_payment.excluido_mensalidade = True
         db.session.add(monthly_payment)
