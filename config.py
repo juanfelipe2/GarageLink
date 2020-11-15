@@ -10,4 +10,5 @@ PORT = os.environ.get("PORT", 5000)
 SQLALCHEMY_DATABASE_URI = 'mysql://' + secret
 #SQLALCHEMY_DATABASE_URI = 'mysql://root:@localhost:3306/garage_link_novo'
 SQLALCHEMY_TRACK_MODIFICATIONS = True
+SQLALCHEMY_POOL_RECYCLE=90
 SECRET_KEY = 'YFUVMix#bgNV9AkEwsdb9@*!ZRkq@KfftK%CGQa*%4@bo!gevU'

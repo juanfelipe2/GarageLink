@@ -268,6 +268,7 @@
                             <!-- -------------------------------------------------------------------------- -->
 
                             <!-- Inicio card Serviços -->
+                            {% if current_user.is_manager() %}
                             <div class="card-header" id="heading6">
                                 <h5 class="mb-2">
                                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse6" aria-expanded="true" aria-controls="collapse6">
@@ -295,11 +296,13 @@
                                     </ul>
                                 </div>
                             </div>
+                            {% endif %}
                             <!-- Fim card Serviços -->
 
                             <!-- -------------------------------------------------------------------------- -->
 
                             <!-- Inicio card Vagas -->
+                            {% if current_user.is_manager() %}
                             <div class="card-header" id="heading7">
                                 <h5 class="mb-2">
                                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse7" aria-expanded="true" aria-controls="collapse7">
@@ -327,6 +330,7 @@
                                     </ul>
                                 </div>
                             </div>
+                            {% endif %}
                             <!-- Fim card Vagas -->
 
                             <!-- -------------------------------------------------------------------------- -->
