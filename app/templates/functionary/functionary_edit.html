@@ -14,12 +14,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="cpf">CPF</label>
+                    <label for="cpf">CPF <span style="color: red;">*</span></label>
                     {{ form.cpf(id="cpf", class="form-control", placeholder="Digite o CPF", value=functionary.cpf_funcionario) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="nome">Nome</label>
+                    <label for="nome">Nome <span style="color: red;">*</span></label>
                     {{ form.nome(id="nome", class="form-control", placeholder="Digite o nome", value=functionary.nome_funcionario) }}
                 </div>
 
@@ -34,7 +34,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="tipo">Tipo</label>
+                    <label for="endereco">Endereço <span style="color: red;">*</span></label>
+                    {{ form.celular(id="endereco", class="form-control",  value=functionary.endereco_funcionario) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo">Tipo <span style="color: red;">*</span></label>
                     {{ form.tipo(id="tipo", class="form-control") }}
                 </div>
 

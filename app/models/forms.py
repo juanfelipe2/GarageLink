@@ -18,7 +18,7 @@ class FunctionaryForm(FlaskForm):
     nome = StringField("nome", validators=[DataRequired()])
     cpf = StringField("cpf", validators=[DataRequired()])
     telefone = StringField("telefone", validators=[Optional()])
-    celular = StringField("celular", validators=[DataRequired()])
+    celular = StringField("celular", validators=[Optional()])
     endereco = StringField("endereco", validators=[DataRequired()])
     tipo = SelectField(
             "tipo",
@@ -60,12 +60,12 @@ class ClientForm(FlaskForm):
     email = StringField("email", validators=[Optional()])
     situacao = SelectField(
             "situacao",
-            validators=[DataRequired()],
+            validators=[Optional()],
             choices=['', 'Em dia', 'À pagar']
         )
     tipo = SelectField(
             "tipo",
-            validators=[DataRequired()],
+            validators=[Optional()],
             choices=['', 'Mensalista', 'Único']
         )
 
@@ -76,14 +76,14 @@ class VehicleForm(FlaskForm):
     marca = StringField("marca", validators=[DataRequired()])
     modelo = StringField("modelo", validators=[DataRequired()])
     cor = StringField("cor", validators=[DataRequired()])
-    anoFabricacao = StringField("anoFabricacao", validators=[DataRequired()])
-    anoModelo = StringField("anoModelo", validators=[DataRequired()])
+    anoFabricacao = StringField("anoFabricacao", validators=[Optional()])
+    anoModelo = StringField("anoModelo", validators=[Optional()])
 
 
 class ServiceForm(FlaskForm):
     id_servico = IntegerField("id_servico", validators=[Optional()])
     nome = StringField("nome", validators=[DataRequired()])
-    descricao = StringField("descricao", validators=[DataRequired()])
+    descricao = StringField("descricao", validators=[Optional()])
     preco = FloatField("preco", validators=[DataRequired()])
     tipo = SelectField(
             "tipo",
@@ -128,11 +128,7 @@ class Parking(FlaskForm):
             validators=[DataRequired()],
             choices=['', 'Dinheiro', 'Crédito', 'Débito']
         )
-    situacao = SelectField(
-            "situacao",
-            validators=[DataRequired()],
-            choices=['', 'Pago', 'Em aberto']
-        )
+    situacao = StringField("situacao", validators=[Optional()])
     servicos = HiddenField("servicos")
     servicos = HiddenField("valor_hora")
 
@@ -161,5 +157,5 @@ class DamageForm(FlaskForm):
     descricao_avaria = StringField(
         "descricao_avaria", validators=[DataRequired()]
         )
-    observacao_avaria = StringField("observacao_avaria", validators=[DataRequired()])
+    observacao_avaria = StringField("observacao_avaria", validators=[Optional()])
     placa_veiculo = SelectField("placa_veiculo", validators=[DataRequired()], choices=[''])

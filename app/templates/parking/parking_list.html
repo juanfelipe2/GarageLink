@@ -12,6 +12,7 @@
                             <th>Id</th>
                             <th>Placa</th>
                             <th>Entrada</th>
+                            <th>Saída</th>
                             <th>Observação</th>
                             <th>Total Servicos</th>
                             <th>Situação</th>
@@ -25,19 +26,22 @@
                                 <td>{{ park.id_estacionamento }}</td>
                                 <td>{{ park.veiculo_placa_veiculo }}</td>
                                 <td>{{ park.entrada_estacionamento }}</td>
+                                <td>{{ park.saida_estacionamento }}</td>
                                 <td>{{ park.observacao_estacionamento }}</td>
                                 <td>{{ park.valor_total_estacionamento }}</td>
                                 <td>{{ park.situacao_estacionamento.capitalize() }}</td>
                                 
                                 <td class="d-flex justify-content-center">
                                     {% set disable = 'pointer-events: none' %}
-                                    {% if park.situacao_estacionamento == 'pago' %}
-                                        {% set disable = '' %}
+                                    {% if park.situacao_estacionamento == 'pendente' %}
+                                        <a class="btn btn-success" href="{{ url_for('parking.exit_parking', id_estacionamento=park.id_estacionamento) }}">Registrar Saída</a>
+                                        <div class="ml-3"></div>
+                                        <a class="btn btn-primary" href="{{ url_for('parking.edit_parking', id_estacionamento=park.id_estacionamento) }}">Editar</a>
+                                        <div class="ml-3"></div>
+                                    {% else %}
+                                    <a class="btn btn-primary" href="{{ url_for('parking.edit_parking', id_estacionamento=park.id_estacionamento) }}">Visualizar</a>
+                                    <div class="ml-3"></div>
                                     {% endif %}
-                                    <a class="btn btn-success" style={{ disable }} href="{{ url_for('parking.exit_parking', id_estacionamento=park.id_estacionamento) }}">Registrar Saída</a>
-                                    <div class="ml-3"></div>
-                                    <a class="btn btn-primary" style={{ disable }} href="{{ url_for('parking.edit_parking', id_estacionamento=park.id_estacionamento) }}">Editar</a>
-                                    <div class="ml-3"></div>
                                     <button class="btn btn-danger" onclick="excluir( '{{ park.id_estacionamento }}' )">Excluir</button>
                                 </td>
                             </tr>

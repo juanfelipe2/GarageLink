@@ -4,10 +4,18 @@
 
     <div class="d-flex justify-content-center mt-3 p-sm-2 col-xs-12 col-sm-10">
         <div class="col-sm-12 col-xs-12">
-            {% if not saida %}
-                <h2 class="p-3 mb-3">Editar Entrada</h2>
-            {% else %}
+            {% set read_obs = False %}
+
+            {% if saida %}
                 <h2 class="p-3 mb-3">Registrar Saída</h2>
+            {% else %}
+                {% if parking.situacao_estacionamento == 'pendente' %}
+                <h2 class="p-3 mb-3">Editar Entrada</h2>
+                {% else %}
+                    <h2 class="p-3 mb-3">Visualização Saída</h2>
+                    {% set read_only = True %}
+                    {% set read_obs = True %}
+                {% endif %}
             {% endif %}
 
             <form method="POST">
@@ -15,18 +23,18 @@
                 
                 <div class="d-flex justify-content-center">
                     <div class="form-group col-4">
-                        <label for="placa_veiculo">Placa do Veículo</label>
+                        <label for="placa_veiculo">Placa do Veículo <span style="color: red;">*</span></label>
                         {{ form_parking.placa_veiculo(id="placa_veiculo", class="form-control", placeholder="Digite a placa do veículo", readonly=read_only) }}
                     </div>
 
                     <div class="form-group col-4">
-                        <label for="id_vaga">Vaga</label>
+                        <label for="id_vaga">Vaga <span style="color: red;">*</span></label>
                         {{ form_parking.id_vaga(id="id_vaga", class="form-control", placeholder="Digite a vaga", readonly=read_only) }}
                     </div>
 
                     <div class="form-group col-4">
                         <label for="observacao">Observação</label>
-                        {{ form_parking.observacao(id="observacao", class="form-control", placeholder="Digite uma observação", value=parking.observacao_estacionamento) }}
+                        {{ form_parking.observacao(id="observacao", class="form-control", placeholder="Digite uma observação", value=parking.observacao_estacionamento, readonly=read_obs) }}
                     </div>
                 </div>
                 
@@ -38,7 +46,7 @@
                     {% if not saida %}
                         <div class="form-group col-4">
                             <label for="situacao">Situação Pagamento</label>
-                            {{ form_parking.saida(id="situacao", class="form-control", placeholder="", readonly=True, value=parking.situacao_estacionamento.capitalize() ) }}
+                            {{ form_parking.situacao(id="situacao", class="form-control", placeholder="", readonly=True, value=parking.situacao_estacionamento.capitalize() ) }}
                         </div>
 
                         <div class="form-group col-4">
@@ -62,12 +70,12 @@
                 <div class="d-flex justify-content-center">
                     {% if saida %} 
                         <div class="form-group col-2">
-                            <label for="tipo_pagamento">Tipo Pagamento</label>
+                            <label for="tipo_pagamento">Tipo Pagamento <span style="color: red;">*</span></label>
                             {{ form_parking.tipo_pagamento(id="tipo_pagamento", class="form-control" ) }}
                         </div>
 
                         <div class="form-group col-2">
-                            <label for="valor_recebido">Valor Recebido</label>
+                            <label for="valor_recebido">Valor Recebido <span style="color: red;">*</span></label>
                             {{ form_parking.valor_recebido(id="valor_recebido", class="form-control", placeholder="", value="0") }}
                         </div>
                         
@@ -93,10 +101,12 @@
                     {% endif %}
                 </div>
 
-                <div class="ml-3 mt-3">
-                    <button id="addService" class="btn btn-primary mr-2" type="button">Adicionar serviço</button>
-                    <button id="removeService" class="btn btn-danger" type="button">Remover serviço </button>
-                </div>
+                {% if parking.situacao_estacionamento == 'pendente' %}
+                    <div class="ml-3 mt-3">
+                        <button id="addService" class="btn btn-primary mr-2" type="button">Adicionar serviço</button>
+                        <button id="removeService" class="btn btn-danger" type="button">Remover serviço </button>
+                    </div>
+                {% endif %}
                 
                 <div class="table-responsive col-12">
                     <table id="serviceParking" name="services" class="table table-striped table-bordered">
@@ -134,20 +144,36 @@
                 </div>
 
                 {{ form_parking.servicos(id="services") }}
-
+                {{ form_parking.situacao(id="situacao", value=parking.situacao_estacionamento, type="hidden") }}
+                
                 <div class="text-center mt-4">
-                    <button id="buttonSubmit" class="btn btn-primary mr-4" type="submit">Salvar</button>
-                    <a class="btn btn-danger" href="/lista-entradas-estacionamento">Voltar</a>
+                    {% if parking.situacao_estacionamento == 'pendente' %}
+                        <button id="buttonSubmit" class="btn btn-primary mr-4" type="submit">Salvar</button>
+                        <a class="btn btn-danger" href="/lista-entradas-estacionamento/entradas">Voltar</a>
+                    {% else %}
+                        <a class="btn btn-danger" href="/lista-entradas-estacionamento/saidas">Voltar</a>
+                    {% endif %}
                 </div>
             </form>
         </div>
     </div>
-
+    
     {% if saida %}
         <script>
             setTimerExit();
             calcExit();
         </script>
+    {% else %}
+        {% if parking.situacao_estacionamento == 'pendente' %}
+            <script>
+                setTimerEntry();
+                $(document).ready(function() {
+                    $('#placa_veiculo').select2();
+                    $('#id_vaga').select2();
+                });
+            </script>
+        {% endif %}
     {% endif %}
+
 
 {% endblock %}

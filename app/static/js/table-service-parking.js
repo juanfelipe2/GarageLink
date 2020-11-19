@@ -19,7 +19,30 @@ $(document).ready( function () {
             {'name': 'tipo'},
             {'name': 'id_origem','visible': false},
             {'name': 'excluido', 'visible': false}
-        ]
+        ],
+        "language": {
+            "sEmptyTable":   "Não foi encontrado nenhum registo",
+            "sLoadingRecords": "A carregar...",
+            "sProcessing":   "A processar...",
+            "sLengthMenu":   "Mostrar _MENU_ registos",
+            "sZeroRecords":  "Não foram encontrados resultados",
+            "sInfo":         "Mostrando de _START_ até _END_ de _TOTAL_ registos",
+            "sInfoEmpty":    "Mostrando de 0 registros",
+            "sInfoFiltered": "(filtrado de _MAX_ registos no total)",
+            "sInfoPostFix":  "",
+            "sSearch":       "Procurar:",
+            "sUrl":          "",
+            "oPaginate": {
+                "sFirst":    "Primeiro",
+                "sPrevious": "Anterior",
+                "sNext":     "Seguinte",
+                "sLast":     "Último"
+            },
+            "oAria": {
+                "sSortAscending":  ": Ordenar colunas de forma ascendente",
+                "sSortDescending": ": Ordenar colunas de forma descendente"
+            }
+        }
     });
 
     toastr.options = {
@@ -77,7 +100,9 @@ $(document).ready( function () {
                 }
             } else if (event.type == 'dblclick') { 
                 var isParking = table.cell({row:rowIdx, column:4}).data().toLowerCase() == 'estacionamento';
-                if (columnIdx == 0  && !isParking || !isExit) {
+                var noPay = $("#situacao").val().toLowerCase() == 'pendente';
+
+                if (columnIdx == 0  && noPay && (!isParking || !isExit)) {
                     var originContent = $(this).val();
                     var select = $('<select id="select_service"></select>');
                     var element = $(this);
@@ -126,7 +151,9 @@ $(document).ready( function () {
         
                                                     if (service.tipo.toLowerCase() == 'servico') {
                                                         var totalValue = parseFloat($("#valor_total").val()) - parseFloat(originValue) + service.preco;
+                                                        var liquidValue = parseFloat($("#valor_liquido").val()) - parseFloat(originValue) + service.preco;
                                                         $("#valor_total").val(totalValue);
+                                                        $("#valor_liquido").val(liquidValue);
                                                     }
                                                     
                                                 }
@@ -157,17 +184,24 @@ $(document).ready( function () {
         var rowstot = info.recordsDisplay;
         var index = table.row('.bg-selected').index();
         var isParking = table.cell({row:index, column:4}).data().toLowerCase() == 'estacionamento';
-        var isExit = window.location.pathname.includes('saida');
-        
-        if (rowstot > 1 && index != undefined && !isParking || !isExit)  {
+        var isRegistred = table.cell({row:index, column:5}).data().toLowerCase();
+
+        if (rowstot > 1 && index != undefined && !isParking || !isExit || !isRegistred)  {
             table.cell({row:index, column:6}).data("true");
             
-            var totalValue = parseFloat($('#valor_total').val());
-            var liquidValue = parseFloat($('#valor_liquido').val());
-            var serviceValue = parseFloat(table.cell({row:index, column:3}).data());
-
-            $('#valor_total').val(totalValue - serviceValue);
-            $('#valor_liquido').val(liquidValue - serviceValue);
+            if (!isParking) {
+                var totalValue = parseFloat($('#valor_total').val());
+                var liquidValue = parseFloat($('#valor_liquido').val());
+                var serviceValue = parseFloat(table.cell({row:index, column:3}).data());
+    
+                if (totalValue > 0) {
+                    $('#valor_total').val(Math.abs(totalValue - serviceValue));
+                }
+    
+                if (liquidValue > 0) {
+                    $('#valor_liquido').val(Math.abs(liquidValue - serviceValue));
+                }
+            }
 
             $( table.row(index).nodes() ).removeClass( 'bg-selected' );
             table.search( "false" ).draw();
@@ -178,7 +212,7 @@ $(document).ready( function () {
             if (index >= rowstot) {
                 $( table.row(index - 1).nodes() ).addClass( 'bg-selected' );
             }
-        } else if (index != undefined && isParking && isExit) {
+        } else if (index != undefined && isParking && isExit && isRegistred) {
             toastr.info('<b style="color:black; font-size:18px">Não é permitido remover o serviço do tipo estacionamento no registro da saída.</b>')  
         }
     } );

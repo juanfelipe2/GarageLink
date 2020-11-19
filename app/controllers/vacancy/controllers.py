@@ -63,6 +63,9 @@ def edit_vacancy(id_vaga):
             vaga.codigo_vaga = codigo_vaga
             vaga.situacao_vaga = situacao_vaga.lower()
 
+            if situacao_vaga.lower() == 'livre':
+                vaga.veiculo_placa_veiculo = None
+
             # Grava no banco de dados
             db.session.add(vaga)
             db.session.commit()

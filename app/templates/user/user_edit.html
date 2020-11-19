@@ -19,27 +19,27 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="nome">Nome do Usuário</label>
+                    <label for="nome">Nome do Usuário <span style="color: red;">*</span></label>
                     {{ form.nome(id="nome", class="form-control", placeholder="Digite o usuário", value=usuario.nome_usuario) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="senha">Senha (Opcional)</label>
+                    <label for="senha">Senha</label>
                     {{ form.senha(id="senha", class="form-control",placeholder="*****", required=False) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <label for="email">Email <span style="color: red;">*</span></label>
                     {{ form.email(id="email", class="form-control",placeholder="Digite o email", value=usuario.email_usuario) }}
                 </div>
                 
                 <div class="form-group">
-                    <label for="tipo">Tipo</label>
+                    <label for="tipo">Tipo <span style="color: red;">*</span></label>
                     {{ form.tipo(id="tipo", class="form-control") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="situacao">Situação</label>
+                    <label for="situacao">Situação <span style="color: red;">*</span></label>
                     {{ form.situacao(id="situacao", class="form-control") }}
                 </div>
 

@@ -9,7 +9,7 @@
                 {{ form.csrf_token }}
 
                 <div class="form-group">
-                    <label for="nome">Nome</label>
+                    <label for="nome">Nome <span style="color: red;">*</span></label>
                     {{ form.nome(id="nome", class="form-control", placeholder="Digite o nome do serviço") }}
                 </div>
 
@@ -19,17 +19,17 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="preco">Preço</label>
+                    <label for="preco">Preço <span style="color: red;">*</span></label>
                     {{ form.preco(id="preco", class="form-control", placeholder="Digite o preço do serviço") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="tipo">Tipo</label>
+                    <label for="tipo">Tipo <span style="color: red;">*</span></label>
                     {{ form.tipo(id="tipo", class="form-control") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="situacao">Situação</label>
+                    <label for="situacao">Situação <span style="color: red;">*</span></label>
                     {{ form.situacao(id="situacao", class="form-control") }}
                 </div>
 

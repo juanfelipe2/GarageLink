@@ -9,37 +9,37 @@
                 {{ form.csrf_token }}
 
                 <div class="form-group">
-                    <label for="id_funcionario">Funcionário</label>
+                    <label for="id_funcionario">Funcionário <span style="color: red;">*</span></label>
                     {{ form.id_funcionario(id="id_funcionario", class="form-control") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="login">Login</label>
+                    <label for="login">Login <span style="color: red;">*</span></label>
                     {{ form.login(id="login", class="form-control", placeholder="Digite o login do usuário") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="nome">Nome do Usuário</label>
+                    <label for="nome">Nome do Usuário <span style="color: red;">*</span></label>
                     {{ form.nome(id="nome", class="form-control", placeholder="Digite o usuário") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="senha">Senha</label>
+                    <label for="senha">Senha <span style="color: red;">*</span></label>
                     {{ form.senha(id="senha", class="form-control",placeholder="*****") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <label for="email">Email <span style="color: red;">*</span></label>
                     {{ form.email(id="email", class="form-control",placeholder="Digite o email") }}
                 </div>
                 
                 <div class="form-group">
-                    <label for="tipo">Tipo</label>
+                    <label for="tipo">Tipo <span style="color: red;">*</span></label>
                     {{ form.tipo(id="tipo", class="form-control") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="situacao">Situação</label>
+                    <label for="situacao">Situação <span style="color: red;">*</span></label>
                     {{ form.situacao(id="situacao", class="form-control") }}
                 </div>
 

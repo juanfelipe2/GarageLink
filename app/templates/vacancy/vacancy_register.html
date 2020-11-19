@@ -9,17 +9,17 @@
                 {{ form.csrf_token }}
 
                 <div class="form-group">
-                    <label for="codigo_vaga">Código da Vaga</label>
+                    <label for="codigo_vaga">Código da Vaga <span style="color: red;">*</span></label>
                     {{ form.codigo_vaga(id="codigo_vaga", class="form-control", placeholder="Digite o código da vaga") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="localizacao_vaga">Localização da Vaga</label>
+                    <label for="localizacao_vaga">Localização da Vaga <span style="color: red;">*</span></label>
                     {{ form.localizacao_vaga(id="localizacao_vaga", class="form-control", placeholder="Digite a localização da vaga") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="situacao_vaga">Situação da Vaga</label>
+                    <label for="situacao_vaga">Situação da Vaga <span style="color: red;">*</span></label>
                     {{ form.situacao_vaga(id="situacao_vaga", class="form-control", placeholder="Digite a situação da vaga") }}
                 </div>
 

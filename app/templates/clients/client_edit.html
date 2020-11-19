@@ -14,17 +14,17 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="cpf">CPF</label>
+                    <label for="cpf">CPF <span style="color: red;">*</span></label>
                     {{ form.cpf(id="cpf", class="form-control", placeholder="Digite o CPF", value=cliente.cpf_cliente) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="nome">Nome</label>
+                    <label for="nome">Nome <span style="color: red;">*</span></label>
                     {{ form.nome(id="nome", class="form-control", placeholder="Digite o nome", value=cliente.nome_cliente) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="dataNascimento">Data de Nascimento</label>
+                    <label for="dataNascimento">Data de Nascimento <span style="color: red;">*</span></label>
                     {{ form.dataNascimento(id="dataNascimento", class="form-control", placeholder="00/00/0000", value=cliente.data_nascimento_cliente) }}
                 </div>
 
@@ -43,15 +43,15 @@
                     {{ form.email(id="email", class="form-control",placeholder="example@email.com", value=cliente.email_cliente) }}
                 </div>
                 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="tipo">Tipo</label>
                     {{ form.tipo(id="tipo", class="form-control") }}
-                </div>
+                </div> -->
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="situacao">Situação</label>
                     {{ form.situacao(id="situacao", class="form-control") }}
-                </div>
+                </div> -->
 
                 <div class="text-center">
                     <button class="btn btn-primary mr-4" type="submit">Salvar</button>

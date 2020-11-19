@@ -148,15 +148,18 @@ def all_services():
     return jsonify(registry), 200
     # return jsonify([{'error': 'Código inválido.'}]), 403
 
-@parking.route('/lista-entradas-estacionamento', methods=['GET'])
-def list_parking():
+@parking.route('/lista-entradas-estacionamento/<string:tipo_listagem>', methods=['GET'])
+def list_parking(tipo_listagem):
     if current_user.is_authenticated:
-        parkings = db.session.query(Estacionamento).filter(and_(Estacionamento.saida_estacionamento == None, Estacionamento.excluido_estacionamento == False))
+        if tipo_listagem == 'entradas':
+            parkings = db.session.query(Estacionamento).filter(and_(Estacionamento.saida_estacionamento == None, Estacionamento.excluido_estacionamento == False))
+        elif tipo_listagem == 'saidas':
+            parkings = db.session.query(Estacionamento).filter(and_(Estacionamento.saida_estacionamento != None, Estacionamento.excluido_estacionamento == False))
         return render_template('parking/parking_list.html', parkings=parkings)
     return redirect('pagina-inicial')
 
 
-@parking.route('/editar-registro-estacionamento/<string:id_estacionamento>', methods=['GET', 'POST'])
+@parking.route('/registro-estacionamento/<string:id_estacionamento>', methods=['GET', 'POST'])
 def edit_parking(id_estacionamento):
     if current_user.is_authenticated:
         form_parking = Parking()
@@ -257,17 +260,21 @@ def edit_parking(id_estacionamento):
             space = Vaga.query.filter_by(id_vaga=parking.vaga_id_vaga).first()
 
             if not form_parking.placa_veiculo.data:
-                list = Veiculo.list_of_vehicle_no_parked()
-                list.append(parking.veiculo_placa_veiculo)
-                list.sort()
+                if parking.situacao_estacionamento == 'pendente':
+                    list = Veiculo.list_of_vehicle_no_parked()
+                    list.sort()
+                else:
+                    list = [parking.veiculo_placa_veiculo]
                 form_parking.placa_veiculo.choices = list
                 form_parking.placa_veiculo.default = parking.veiculo_placa_veiculo
                 form_parking.process()
             
             if not form_parking.id_vaga.data:
-                list = Vaga.list_of_spaces()
-                list.append((space.id_vaga, space.codigo_vaga + ' - ' + space.localizacao_vaga))
-                list.sort()
+                if parking.situacao_estacionamento == 'pendente':
+                    list = Vaga.list_of_spaces()
+                    list.append((space.id_vaga, space.codigo_vaga + ' - ' + space.localizacao_vaga))
+                else:
+                    list = [(space.id_vaga, space.codigo_vaga + ' - ' + space.localizacao_vaga)]
                 form_parking.id_vaga.choices = list
                 form_parking.id_vaga.default = parking.vaga_id_vaga
                 form_parking.process()

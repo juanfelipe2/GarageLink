@@ -16,8 +16,6 @@
                             <th>Telefone</th>
                             <th>Celular</th>
                             <th>Email</th>
-                            <th>Situação</th>
-                            <th>Tipo</th>
                             <th class="text-center">Ações</th>
                         </tr>
                     </thead>
@@ -32,8 +30,6 @@
                                 <td>{{ client.telefone_cliente }}</td>
                                 <td>{{ client.celular_cliente }}</td>
                                 <td>{{ client.email_cliente }}</td>
-                                <td>{{ client.situacao_cliente.capitalize() }}</td>
-                                <td>{{ client.tipo_cliente.capitalize() }}</td>
                                 <td class="d-flex justify-content-center">
                                     <a class="btn btn-primary" href="{{ url_for('edit_client', id_cliente=client.id_cliente) }}">Editar</a>
                                     <div class="ml-3"></div>

@@ -9,38 +9,38 @@
                 {{ form.csrf_token }}
 
                 <div class="form-group">
-                    <label for="id_cliente">Cliente proprietário</label>
+                    <label for="id_cliente">Cliente proprietário <span style="color: red;">*</span></label>
                     {{ form.id_cliente(id="id_cliente", class="form-control") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="login">Placa</label>
-                    {{ form.placa(id="placa", class="form-control", placeholder="Digite a placa do veículo") }}
+                    <label for="placa">Placa <span style="color: red;">*</span></label>
+                    {{ form.placa(id="placa", class="form-control", placeholder="ABC1234") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="marca">Marca do Veículo</label>
+                    <label for="marca">Marca do Veículo <span style="color: red;">*</span></label>
                     {{ form.marca(id="marca", class="form-control", placeholder="Digite o marca do veículo") }}
                 </div>
                 
                 <div class="form-group">
-                    <label for="modelo">Modelo do Veículo</label>
+                    <label for="modelo">Modelo do Veículo <span style="color: red;">*</span></label>
                     {{ form.modelo(id="modelo", class="form-control", placeholder="Digite o modelo do veículo") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="cor">Cor do Veículo</label>
+                    <label for="cor">Cor do Veículo <span style="color: red;">*</span></label>
                     {{ form.cor(id="cor", class="form-control", placeholder="Digite a cor do veículo") }}
                 </div>
 
                 <div class="form-group">
                     <label for="anoFabricacao">Ano de fabricação do veículo</label>
-                    {{ form.anoFabricacao(id="anoFabricacao", class="form-control", placeholder="Digite o ano de fabricação") }}
+                    {{ form.anoFabricacao(id="anoFabricacao", class="form-control", placeholder="0000") }}
                 </div>
 
                 <div class="form-group">
                     <label for="anoModelo">Ano de do modelo do veículo</label>
-                    {{ form.anoModelo(id="anoModelo", class="form-control", placeholder="Digite o ano do modelo") }}
+                    {{ form.anoModelo(id="anoModelo", class="form-control", placeholder="0000") }}
                 </div>
 
                 <div class="text-center">
