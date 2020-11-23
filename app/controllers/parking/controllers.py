@@ -79,7 +79,7 @@ def register_parking():
 
 
             # Redireciona para lista de registros estacionamento
-            return redirect(url_for('parking.list_parking'))
+            return redirect(url_for('parking.list_parking', tipo_listagem='entradas'))
 
         #carrega combo box com a lista de funcionários
         else:
@@ -236,7 +236,7 @@ def edit_parking(id_estacionamento):
                 db.session.commit()
 
             # Redireciona para lista de registros estacionamento
-            return redirect(url_for('parking.list_parking'))
+            return redirect(url_for('parking.list_parking', tipo_listagem='entradas'))
 
         else:
             parking = Estacionamento.query.filter_by(id_estacionamento=id_estacionamento).first()
@@ -356,7 +356,7 @@ def exit_parking(id_estacionamento):
                 db.session.commit()
 
             # Redireciona para lista de registros estacionamento
-            return redirect(url_for('parking.list_parking'))
+            return redirect(url_for('parking.list_parking', tipo_listagem='entradas'))
 
         else:
             parking = Estacionamento.query.filter_by(id_estacionamento=id_estacionamento).first()
@@ -434,5 +434,8 @@ def delete_vehicle(id_estacionamento):
             db.session.add(usuario)
             db.session.commit()
 
-        return redirect(url_for('parking.list_parking'))
+        if parking.situacao_estacionamento.lower() == 'pago':
+            return redirect(url_for('parking.list_parking', tipo_listagem='saidas'))
+        else:
+            return redirect(url_for('parking.list_parking', tipo_listagem='entradas'))
     redirect('pagina-inicial')
