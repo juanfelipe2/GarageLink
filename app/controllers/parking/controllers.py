@@ -148,7 +148,7 @@ def all_services():
     return jsonify(registry), 200
     # return jsonify([{'error': 'Código inválido.'}]), 403
 
-@parking.route('/lista-entradas-estacionamento/<string:tipo_listagem>', methods=['GET'])
+@parking.route('/lista-registros-estacionamento/<string:tipo_listagem>', methods=['GET'])
 def list_parking(tipo_listagem):
     if current_user.is_authenticated:
         if tipo_listagem == 'entradas':
