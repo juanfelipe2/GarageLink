@@ -23,8 +23,8 @@ def register_client():
             telefone = form.telefone.data
             celular = form.celular.data
             email = form.email.data
-            situacao = form.situacao.data
-            tipo = form.tipo.data.lower()
+            situacao = 'Em dia'
+            tipo = 'Único'
 
             # Cria objeto Cliente
             cliente = Cliente(
@@ -76,8 +76,8 @@ def edit_client(id_cliente):
             telefone = form.telefone.data
             celular = form.celular.data
             email = form.email.data
-            situacao = form.situacao.data.lower()
-            tipo = form.tipo.data.lower()
+            situacao = 'Em dia'
+            tipo = 'Único'
 
             # Altera informações para alteração no banco de dados
             cliente.cpf_cliente = cpf
