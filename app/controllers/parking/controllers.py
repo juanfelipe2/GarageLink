@@ -13,6 +13,7 @@ def register_parking():
     if current_user.is_authenticated:
         form_parking = Parking()
         form_service = ServiceParking()
+        qtdVacancy = Vaga.available_vacancies()
 
         if form_parking.is_submitted():
             placa_veiculo = form_parking.placa_veiculo.data
@@ -91,7 +92,7 @@ def register_parking():
                 form_parking.id_vaga.choices = Vaga.list_of_spaces()
                 form_parking.process()
 
-        return render_template('parking/parking_register.html', form_parking=form_parking, form_service=form_service)
+        return render_template('parking/parking_register.html', form_parking=form_parking, form_service=form_service, qtdVacancy=qtdVacancy)
 
     return redirect('pagina-inicial')
 

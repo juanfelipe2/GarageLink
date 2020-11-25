@@ -344,6 +344,17 @@ class Vaga(db.Model):
         
         return list
         self.veiculo_placa_veiculo = veiculo_placa_veiculo
+    
+    def available_vacancies():
+        #retorna quantidade de vagas
+        return db.session\
+                            .query(Vaga)\
+                            .filter(
+                                and_(
+                                    Vaga.veiculo_placa_veiculo == None,
+                                    Vaga.excluido_vaga == False
+                                )
+                            ).count()
 
     def occupy_vacancy(self, veiculo_placa_veiculo):
         self.veiculo_placa_veiculo = veiculo_placa_veiculo

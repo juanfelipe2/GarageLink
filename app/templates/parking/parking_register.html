@@ -15,9 +15,14 @@
                         {{ form_parking.placa_veiculo(id="placa_veiculo", class="form-control", placeholder="Digite a placa do veículo", readonly=read_only) }}
                     </div>
 
-                    <div class="form-group col-4">
+                    <div class="form-group col-2">
                         <label for="id_vaga">Vaga <span style="color: red;">*</span></label>
                         {{ form_parking.id_vaga(id="id_vaga", class="form-control", placeholder="Digite a vaga", readonly=read_only) }}
+                    </div>
+
+                    <div class="form-group col-2">
+                        <label for="vaga_disponivel">Vagas Disponíveis</label>
+                        {{ form_parking.vaga_disponivel(id="vaga_disponivel", class="form-control", readonly=True, value=qtdVacancy) }}
                     </div>
 
                     <div class="form-group col-4">

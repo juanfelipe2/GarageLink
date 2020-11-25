@@ -27,7 +27,7 @@
                                 <td class="d-flex justify-content-center">
                                     <a class="btn btn-primary" href="{{ url_for('damage.edit_damage', id_avaria=avaria.id_avaria) }}">Editar</a>
                                     <div class="ml-3"></div>
-                                    <button class="btn btn-danger" onclick="excluir('{{ avaria.id_avaria }}')">Excluir</button>
+                                    <button class="btn btn-danger" onclick="excluir('{{ avaria.id_avaria }}', '{{ avaria.placa_veiculo_placa }}')">Excluir</button>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -41,8 +41,8 @@
     
     <!-- Função para confirmar exclusão -->
     <script>
-        function excluir(id_avaria) {
-            if (confirm('Deseja excluir o veículo de placa ' + id_avaria + '?')) {
+        function excluir(id_avaria, placa) {
+            if (confirm('Deseja excluir a avaria do veículo ' + placa + '?')) {
                 window.location.href = '/excluir-avaria/' + id_avaria
             }
         }

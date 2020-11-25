@@ -113,6 +113,7 @@ class Parking(FlaskForm):
     id_estacionamento = IntegerField("id_estacionamento", validators=[DataRequired()])
     placa_veiculo = SelectField("placa_veiculo", validators=[DataRequired()])
     id_vaga = SelectField("id_vaga", validators=[DataRequired()])
+    vaga_disponivel = StringField("vaga_disponivel", validators=[Optional()])
     entrada = DateTimeField("entrada", validators=[DataRequired()])
     saida = DateTimeField("saida", validators=[DataRequired()])
     tempo_permanencia = DateTimeField("tempo_permanencia", validators=[DataRequired()])
