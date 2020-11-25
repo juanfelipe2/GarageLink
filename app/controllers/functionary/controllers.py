@@ -68,6 +68,7 @@ def edit_functionary(id_funcionario):
             cpf = form.cpf.data
             telefone = form.telefone.data
             celular = form.celular.data
+            endereco = form.endereco.data
             tipo = form.tipo.data.lower()
 
             # Altera informações para alteração no banco de dados
@@ -75,6 +76,7 @@ def edit_functionary(id_funcionario):
             functionary.nome_funcionario = nome
             functionary.telefone_funcionario = telefone
             functionary.celular_funcionario = celular
+            functionary.endereco_funcionario = endereco
             functionary.tipo_funcionario = tipo.lower()
 
             # Grava no banco de dados
