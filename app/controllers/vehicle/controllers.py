@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, jsonify
 from flask_login import current_user
 from wtforms.validators import Optional
 
@@ -116,3 +116,16 @@ def delete_vehicle(placa):
         db.session.commit()
         return redirect(url_for('list_vehicle'))
     redirect('pagina-inicial')
+
+@app.route('/busca-placa/<string:placa>', methods=['GET', 'POST'])
+def search_plate(placa):
+    vehicle = Veiculo.query.filter_by(placa_veiculo=placa.upper()).first()
+    if vehicle:
+        result = {}
+        result['placa'] = vehicle.placa_veiculo
+        return jsonify(result), 200
+    else:
+        result = {}
+        result['error'] = 'Placa não encontrada.'
+        result['code'] = 403
+        return jsonify(result), 403

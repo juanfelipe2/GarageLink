@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, jsonify
 from flask_login import login_user, logout_user, current_user
 from wtforms.validators import Optional
 
@@ -131,3 +131,16 @@ def delete(login):
         return redirect(url_for('list'))
 
     return redirect('pagina-inicial')
+
+@app.route('/busca-login/<string:login>', methods=['GET'])
+def search_login(login):
+    user = Usuario.query.filter_by(login_usuario=login).first()
+    if user:
+        result = {}
+        result['login'] = user.login_usuario
+        return jsonify(result), 200
+    else:
+        result = {}
+        result['error'] = 'Login não encontrado.'
+        result['code'] = 403
+        return jsonify(result), 403

@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="text-center">
-                    <button class="btn btn-primary mr-4" type="submit">Salvar</button>
+                    <button id="btnSubmit1" class="btn btn-primary mr-4" type="submit">Salvar</button>
                     <a class="btn btn-danger" href="/lista-de-veiculos">Voltar</a>
                 </div>
             </form>
@@ -54,6 +54,32 @@
     <script>
         $(document).ready(function() {
             $('#id_cliente').select2();
+            var ret = true;
+
+            $('#placa').blur(function() {
+                $.ajax({
+                    type: "GET",
+                    url: "/busca-placa/"+$(this).val(),
+                    data: '',
+                    dataType: "dataType",
+                    complete: function(response) {
+                        var result = JSON.parse(response.responseText);
+                        if (response.status == 200) {
+                            toastr.error('<b style="color:black; font-size:18px">Veículo já cadastrado</b>');
+                            ret = false;
+                        } else {
+                            ret = true;
+                        }
+                    }
+                });
+            })
+
+            $('#btnSubmit1').click( function() {
+                if (!ret) {
+                    toastr.error('<b style="color:black; font-size:18px">Veículo já cadastrado</b>');
+                }
+                return ret
+            });
         });
     </script>
 {% endblock %}

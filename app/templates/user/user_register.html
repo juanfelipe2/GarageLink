@@ -44,9 +44,10 @@
                 </div>
 
                 <div class="text-center">
-                    <button class="btn btn-primary mr-4" type="submit">Salvar</button>
+                    <button id="btnSubmit2" class="btn btn-primary mr-4" type="submit">Salvar</button>
                     <a class="btn btn-danger" href="/lista-de-usuarios">Voltar</a>
                 </div>
+                
             </form>
         </div>
     </div>
@@ -55,5 +56,33 @@
         $(document).ready(function() {
             $('#id_funcionario').select2();
         });
+
+        var ret = true;
+
+        $('#login').blur(function() {
+            $.ajax({
+                type: "GET",
+                url: "/busca-login/"+$(this).val(),
+                data: '',
+                dataType: "dataType",
+                complete: function(response) {
+                    var result = JSON.parse(response.responseText);
+                    if (response.status == 200) {
+                        toastr.error('<b style="color:black; font-size:18px">Login já cadastrado</b>');
+                        ret = false;
+                    } else {
+                        ret = true;
+                    }
+                }
+            });
+        })
+
+        $('#btnSubmit2').click( function() {
+            if (!ret) {
+                toastr.error('<b style="color:black; font-size:18px">Login já cadastrado</b>');
+            }
+            return ret
+        });
     </script>
+
 {% endblock %}
